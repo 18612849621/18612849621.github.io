@@ -16,15 +16,24 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta property="og:type" content="article">
+  <meta name="description" content="论文题目：基于结构光双目视觉系统动态测量钢轨磨损一、摘要​        在测量现场结构光双目视觉系统，可以更有效更准确的获取钢轨轮廓以及测量钢轨磨损。首先相机结合自动曝光以及海瑟矩阵去估计周围光线的影响，通过钢轨轮廓光带中心的亚像素坐标可以准确提取。其次，自由平面目标常用于实现双目测量系统的标定，这样可以快速获取全部钢轨轮廓。最后PCA和ICP两种匹配方法用于对比标准钢轨轮廓测量其磨损的准确率。">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Structured-Light_Binocular_Vision_System_for_Dynamic_Measurement_of_Rail_Wear">
 <meta property="og:url" content="http://example.com/2021/11/18/Structured-Light_Binocular_Vision_System_for_Dynamic_Measurement_of_Rail_Wear/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="论文题目：基于结构光双目视觉系统动态测量钢轨磨损一、摘要​        在测量现场结构光双目视觉系统，可以更有效更准确的获取钢轨轮廓以及测量钢轨磨损。首先相机结合自动曝光以及海瑟矩阵去估计周围光线的影响，通过钢轨轮廓光带中心的亚像素坐标可以准确提取。其次，自由平面目标常用于实现双目测量系统的标定，这样可以快速获取全部钢轨轮廓。最后PCA和ICP两种匹配方法用于对比标准钢轨轮廓测量其磨损的准确率。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111190910959.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111191053756.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111191106619.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111191128643.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111191157421.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111191154637.png">
 <meta property="article:published_time" content="2021-11-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-11-19T00:21:54.536Z">
+<meta property="article:modified_time" content="2021-11-19T03:59:50.065Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111190910959.png">
   
   <title>Structured-Light_Binocular_Vision_System_for_Dynamic_Measurement_of_Rail_Wear - Hexo</title>
 
@@ -193,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      2k 字
     </span>
   
 
@@ -202,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      6 分钟
     </span>
   
 
@@ -234,7 +243,42 @@
             <h1 style="display: none">Structured-Light_Binocular_Vision_System_for_Dynamic_Measurement_of_Rail_Wear</h1>
             
             <div class="markdown-body">
-              
+              <h1 id="论文题目：基于结构光双目视觉系统动态测量钢轨磨损"><a href="#论文题目：基于结构光双目视觉系统动态测量钢轨磨损" class="headerlink" title="论文题目：基于结构光双目视觉系统动态测量钢轨磨损"></a>论文题目：基于结构光双目视觉系统动态测量钢轨磨损</h1><h2 id="一、摘要"><a href="#一、摘要" class="headerlink" title="一、摘要"></a>一、摘要</h2><p>​        在测量现场结构光双目视觉系统，可以更有效更准确的获取钢轨轮廓以及测量钢轨磨损。首先相机结合<strong>自动曝光</strong>以及<strong>海瑟矩阵</strong>去估计周围光线的影响，通过钢轨轮廓光带中心的亚像素坐标可以准确提取。其次，自由平面目标常用于实现双目测量系统的标定，这样可以快速获取全部钢轨轮廓。最后<strong>PCA</strong>和<strong>ICP</strong>两种匹配方法用于对比标准钢轨轮廓测量其磨损的准确率。</p>
+<h2 id="二、测量原理"><a href="#二、测量原理" class="headerlink" title="二、测量原理"></a>二、测量原理</h2><h3 id="1、工具"><a href="#1、工具" class="headerlink" title="1、工具"></a>1、工具</h3><p>1）测量推车 2）电脑 3）数据转换器 4）两个线结构光测量单元（工业CCD相机和一个激光投影仪）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111190910959.png" srcset="/img/loading.gif" lazyload alt="截屏2021-11-19 上午9.10.44"></p>
+<h2 id="2、RWMS工作"><a href="#2、RWMS工作" class="headerlink" title="2、RWMS工作"></a>2、RWMS工作</h2><h4 id="1）提取钢轨轮廓光带中心"><a href="#1）提取钢轨轮廓光带中心" class="headerlink" title="1）提取钢轨轮廓光带中心"></a>1）提取钢轨轮廓光带中心</h4><p>​        先对于光带坐标中心进行粗定位，然后用海瑟矩阵计算光带中心亚像素坐标找到相符合的像素位置。</p>
+<p>PS：其实目标就是提取激光散点的中心</p>
+<h4 id="2）双目标定"><a href="#2）双目标定" class="headerlink" title="2）双目标定"></a>2）双目标定</h4><p>​        利用光平面和相机成像平面可以通过计算获取轨道的侧面。</p>
+<h4 id="3）钢轨磨损的比较测量"><a href="#3）钢轨磨损的比较测量" class="headerlink" title="3）钢轨磨损的比较测量"></a>3）钢轨磨损的比较测量</h4><p>​        主要是与标准轨的轮廓进行比较测量得到钢轨磨损。然而<strong>测量刨面的初始位置是随机生成？</strong>的，会产生较大误差。解决方法：1）对于全部的测量轮廓使用PCA算法完成初始化匹配 2）ICP用于对于钢轨进行精准再匹配</p>
+<h2 id="三、实现"><a href="#三、实现" class="headerlink" title="三、实现"></a>三、实现</h2><h2 id="1、轨道轮廓提取"><a href="#1、轨道轮廓提取" class="headerlink" title="1、轨道轮廓提取"></a>1、轨道轮廓提取</h2><p>​        由于相机在测量单元的视野范围是固定的，所以激光带的宽度也是固定的。因此，光带在图像中占用的像素个数大约是N个，使用相机的自动曝光功能去高亮光带。发现过曝的光带像素点是线性相关相机曝光时间（在背景没有过曝的情况下）</p>
+<p>相机曝光时间公式：<br>$$<br>E_{auto} = E_j + \frac{e}{N_{j + 1} - N_j}(N_0 - N_j)<br>$$<br>e是曝光间隔，$E_j$和$N_j$（j=1···n）是相机曝光时间和过曝的在相应位置的像素点属性。</p>
+<p>​        激光带的法线方向服从高斯分布，亮度高于背景。用平均亮度作为阈值可以分割出激光线，在用高斯平滑以保留激光线特征。加工结果如下图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111191053756.png" srcset="/img/loading.gif" lazyload alt="截屏2021-11-19 上午10.53.02"></p>
+<p><em>后续的测量也是分这两部分测量的1）钢轨上面 2）钢轨侧面和底面</em></p>
+<h2 id="2、RWMS-双目标定"><a href="#2、RWMS-双目标定" class="headerlink" title="2、RWMS 双目标定"></a>2、RWMS 双目标定</h2><p>​        根据针孔相机模型，存在公式（就是SLAM14讲第五章的那个变换公式）<br>$$<br>\rho \widetilde{P} = A [\begin{matrix} R &amp; t \end{matrix}] \widetilde{P}_w<br>$$<br>其中$\rho$是比例因子，$R$和$t$是旋转矩阵和平移向量（世界坐标系转向机坐标系）$\widetilde{P}$ 和$\widetilde{P}_w$是其次坐标形式的像素坐标系和世界坐标系，$A$为相机内参矩阵。</p>
+<p>标定模型如图</p>
+<img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111191106619.png" srcset="/img/loading.gif" lazyload alt="截屏2021-11-19 上午11.06.53" style="zoom:50%;" />
+
+<p>​        相机内参$A$使用张氏标定法解决，而相机的外参则利用如下方法。</p>
+<p>1）将线结构光平面定义为世界坐标系的XY平面。</p>
+<p>2）多次移动标定板，生成特征点 </p>
+<p>3）多次使用可以将其线结构光平面拟合出来（相机坐标系）</p>
+<p><em>个人理解：动板子光平面不动，就会有很多的点生成，随便找三个点就可以确认一个平面</em> </p>
+<p>4）最后用<strong>Rodriguez transform principle</strong>将外参确定。</p>
+<p>​        齐次矩阵$H$在世界坐标系下的线结构光平面和相机坐标系下的坐标变换满足：<br>$$<br>H = \lambda A[\begin{matrix}R &amp; t\end{matrix}] = \begin{bmatrix} h_1 &amp; h_2 &amp; h_3\ h_4 &amp; h_5 &amp; h_6 \ h_7 &amp; h_8 &amp; 1\end{bmatrix}<br>$$<br>其中$\lambda = 1/\rho$ 是比例因子， $h_i$是$H$的元素。</p>
+<p>​        由上述本段上述两个公式可以得到轨道轮廓在世界坐标系下的结果<img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111191128643.png" srcset="/img/loading.gif" lazyload alt="截屏2021-11-19 上午11.28.42"></p>
+<h2 id="3、钢轨磨损测量"><a href="#3、钢轨磨损测量" class="headerlink" title="3、钢轨磨损测量"></a>3、钢轨磨损测量</h2><p>​        将钢轨分成两部分测量1）上面 2）侧面和下面</p>
+<p>​        用钢轨的侧面部分来与标准轨对比进行对齐，其中标准轨道和轮廓图均采用间隔0.2mm米的一系列点进行实验。</p>
+<p><em>这里会出现一个误差：这个点间距会造成与标准轨匹配不准确产生的误差（文章说a large error但没有说多少）</em></p>
+<p>​        以下为论文中的解决方案</p>
+<p>​        在初始化匹配标准轨$q$和测得曲线$p$的数据，他们分别取其重心$(x_p, y_p),(x_q, y_q)$以及钢轨侧面轮廓的特征向量。用旋转矩阵$R_1$和平移向量$t_1$完成初始化对其<br>$$<br>R_1 = \begin{bmatrix} \cos{\theta} &amp; -\sin{\theta}\<br>                                            \sin{\theta} &amp; \cos{\theta}\end{bmatrix},\theta = a \cos{\frac{p\cdot q}{|p||q|}}<br>$$</p>
+<p>$$<br>t_1 = (x_q - x_p, y_q - y_p)<br>$$</p>
+<p><em>以上就是我们所需要的旋转和平移的公式化</em></p>
+<p>最后用ICP进行点匹配就可以得到最终的结果。</p>
+<p><em>由此我得到的启发是我们将点云的点进行等间距的采样，这样好进行匹配，而我们的实验中的点并没有按照标准轨与激光测量出的线进行等间距的比对，可能误差还可以减小，而且匹配的方式用的是重心，这里我们可以进一步讨论一下。</em></p>
+<h2 id="四、实验结果"><a href="#四、实验结果" class="headerlink" title="四、实验结果"></a>四、实验结果</h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111191157421.png" srcset="/img/loading.gif" lazyload alt="截屏2021-11-19 上午11.56.38" style="zoom:50%;" /></h2><p>这是他们论文匹配的结果，确实只用一个重心的话可以很好的得出结果，然后匹配速度也很快。</p>
+<img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111191154637.png" srcset="/img/loading.gif" lazyload alt="截屏2021-11-19 上午11.54.36" style="zoom:50%;" />
+
             </div>
             <hr>
             <div>
