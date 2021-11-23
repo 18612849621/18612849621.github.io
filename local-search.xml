@@ -29,6 +29,31 @@
   
   
   <entry>
+    <title>JavaWeb</title>
+    <link href="/2021/11/23/JavaWeb/"/>
+    <url>/2021/11/23/JavaWeb/</url>
+    
+    <content type="html"><![CDATA[<h1 id="javaweb"><a class="markdownIt-Anchor" href="#javaweb"></a> JavaWeb</h1><h2 id="一-jdbc"><a class="markdownIt-Anchor" href="#一-jdbc"></a> 一、JDBC</h2><h3 id="1-api详解"><a class="markdownIt-Anchor" href="#1-api详解"></a> 1、API详解</h3>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>JDBC</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>剑指offer</title>
     <link href="/2021/11/21/%E5%89%91%E6%8C%87offer/"/>
     <url>/2021/11/21/%E5%89%91%E6%8C%87offer/</url>
