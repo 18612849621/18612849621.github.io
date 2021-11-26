@@ -28,9 +28,10 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111250941719.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111251119934.png">
 <meta property="article:published_time" content="2021-11-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-11-25T03:36:42.637Z">
+<meta property="article:modified_time" content="2021-11-26T01:30:11.687Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="树">
+<meta property="article:tag" content="贪心算法">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111211946077.png">
   
@@ -205,7 +206,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.8k 字
+      7k 字
     </span>
   
 
@@ -214,7 +215,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      22 分钟
     </span>
   
 
@@ -319,6 +320,28 @@
 <p>  在左右子树中查找是否存在 p 或者 q，如果 p 和 q 分别在两个子树中，那么就说明根节点就是最低公共祖先。</p>
 <p><strong>代码</strong>：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for a binary tree node.</span><br><span class="hljs-comment"> * public class TreeNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     TreeNode left;</span><br><span class="hljs-comment"> *     TreeNode right;</span><br><span class="hljs-comment"> *     TreeNode(int x) &#123; val = x; &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> TreeNode <span class="hljs-title">lowestCommonAncestor</span><span class="hljs-params">(TreeNode root, TreeNode p, TreeNode q)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(root == null || root == p || root == q)<br>            <span class="hljs-keyword">return</span> root;<br>        TreeNode left = <span class="hljs-built_in">lowestCommonAncestor</span>(root.left, p, q);<br>        TreeNode right = <span class="hljs-built_in">lowestCommonAncestor</span>(root.right, p, q);<br>        <span class="hljs-keyword">return</span> left == null ? right : right == null ? left : root; <span class="hljs-comment">// 如果没有在左子树找到答案那就是一定在右边，反之；如果两遍都找到了 那就说明此时根节点是答案</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="六-贪心算法"><a class="markdownIt-Anchor" href="#六-贪心算法"></a> 六、贪心算法</h2>
+<h3 id="14-剪绳子"><a class="markdownIt-Anchor" href="#14-剪绳子"></a> 14、剪绳子</h3>
+<p><strong>题目描述</strong>：</p>
+<p>  把一根绳子剪成多段，并且使得每段的长度乘积最大。</p>
+<p><strong>思路</strong>：</p>
+<p>  尽可能得多剪长度为 3 的绳子，并且不允许有长度为 1 的绳子出现。如果出现了，就从已经切好长度为 3 的绳子中拿出一段与长度为 1 的绳子重新组合，把它们切成两段长度为 2 的绳子。以下为证明过程。</p>
+<p>将绳子拆成 1 和 n-1，则 1(n-1)-n=-1&lt;0，即拆开后的乘积一定更小，所以不能出现长度为 1 的绳子。</p>
+<p>将绳子拆成 2 和 n-2，则 2(n-2)-n = n-4，在 n&gt;=4 时这样拆开能得到的乘积会比不拆更大。</p>
+<p>将绳子拆成 3 和 n-3，则 3(n-3)-n = 2n-9，在 n&gt;=5 时效果更好。</p>
+<p>将绳子拆成 4 和 n-4，因为 4=2*2，因此效果和拆成 2 一样。</p>
+<p>将绳子拆成 5 和 n-5，因为 5=2+3，而 5&lt;2*3，所以不能出现 5 的绳子，而是尽可能拆成 2 和 3。</p>
+<p>将绳子拆成 6 和 n-6，因为 6=3+3，而 6&lt;3*3，所以不能出现 6 的绳子，而是拆成 3 和 3。这里 6 同样可以拆成 6=2+2+2，但是 3(n - 3) - 2(n - 2) = n - 5 &gt;= 0，在 n&gt;=5 的情况下将绳子拆成 3 比拆成 2 效果更好。</p>
+<p>  继续拆成更大的绳子可以发现都比拆成 2 和 3 的效果更差，因此我们只考虑将绳子拆成 2 和 3，并且优先拆成 3，当拆到绳子长度 n 等于 4 时，也就是出现 3+1，此时只能拆成 2+2。</p>
+<p><strong>代码</strong>：</p>
+<p><em>贪心</em></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">cutRope</span><span class="hljs-params">(<span class="hljs-keyword">int</span> target)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(target == <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">if</span>(target == <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">int</span> timeOf3 = target / <span class="hljs-number">3</span>;<br>        <span class="hljs-keyword">if</span>(target - timeOf3 * <span class="hljs-number">3</span> == <span class="hljs-number">1</span>)<br>            timeOf3--;<br>        <span class="hljs-keyword">int</span> timeOf2 = (target - timeOf3 * <span class="hljs-number">3</span>) / <span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">int</span>)Math.<span class="hljs-built_in">pow</span>(<span class="hljs-number">2</span>, timeOf2) * (<span class="hljs-keyword">int</span>)Math.<span class="hljs-built_in">pow</span>(<span class="hljs-number">3</span>, timeOf3);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><em>动态规划</em></p>
+<p>dp[i] 表示 当前绳子总长i的情况下 能到的最好值</p>
+<p>转移方程 dp[i] = max(dp[i], max(dp[j] x (i - j), j x (i - j))])</p>
+<p>dp[j] x (i - j) 表示所剪出的部分还可以继续分</p>
+<p>j x (i - j) 表示所剪出的分部分不继续分了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">cutRope</span><span class="hljs-params">(<span class="hljs-keyword">int</span> target)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span>[] dp = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[target + <span class="hljs-number">1</span>];<br>        dp[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= target; ++i)&#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt; i; ++j)&#123;<br>                dp[i] = Math.<span class="hljs-built_in">max</span>(dp[i], Math.<span class="hljs-built_in">max</span>(dp[j] * (i - j), j * (i - j)));<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> dp[target];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -337,6 +360,8 @@
                     <i class="iconfont icon-tags"></i>
                     
                       <a class="hover-with-bg" href="/tags/%E6%A0%91/">树</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/">贪心算法</a>
                     
                   </div>
                 
