@@ -29,6 +29,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202112070907655.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202112081426883.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202112090913005.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202112140925614.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111211946077.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111221142303.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202111250941719.png">
@@ -52,7 +53,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202112020856145.png">
 <meta property="og:image" content="http://example.com/2021/Library/Application%20Support/typora-user-images/截屏2021-12-04%20上午9.27.28.png">
 <meta property="article:published_time" content="2021-11-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-12-10T03:15:39.764Z">
+<meta property="article:modified_time" content="2021-12-14T01:49:29.442Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="树">
 <meta property="article:tag" content="贪心算法">
@@ -234,7 +235,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      41k 字
+      43k 字
     </span>
   
 
@@ -243,7 +244,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      129 分钟
+      134 分钟
     </span>
   
 
@@ -398,6 +399,24 @@ Output: b</p>
 <p>  需要我们通过两个堆，一个最大堆一个最小堆来维护得到中间的两个数。</p>
 <p><strong>代码</strong>：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.*;<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> PriorityQueue&lt;Integer&gt; left = <span class="hljs-keyword">new</span> PriorityQueue&lt;&gt;((o1, o2) -&gt; o2 - o1);<span class="hljs-comment">//左边放最大堆</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> PriorityQueue&lt;Integer&gt; right = <span class="hljs-keyword">new</span> PriorityQueue&lt;&gt;();<span class="hljs-comment">//右边放最小堆</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">0</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Insert</span><span class="hljs-params">(Integer num)</span> </span>&#123;<br>        N++;<br>        <span class="hljs-keyword">if</span>(N % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>)&#123; <span class="hljs-comment">// 如果是奇数</span><br>            left.offer(num);<br>            right.offer(left.poll());<br>        &#125;<span class="hljs-keyword">else</span>&#123; <span class="hljs-comment">// 如果是偶数 这样</span><br>            right.offer(num);<br>            left.offer(right.poll());<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Double <span class="hljs-title">GetMedian</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(N % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>)&#123;<span class="hljs-comment">// 如果是奇数 答案在右边</span><br>            <span class="hljs-keyword">return</span> (<span class="hljs-keyword">double</span>)right.peek();<br>        &#125;<span class="hljs-keyword">else</span>&#123;<span class="hljs-comment">// 如果是偶数 答案在中间两个数的平均</span><br>            <span class="hljs-keyword">return</span> (<span class="hljs-keyword">double</span>)(right.peek() + left.peek()) / <span class="hljs-number">2</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="412-字符流中第一个不重复的字符"><a class="markdownIt-Anchor" href="#412-字符流中第一个不重复的字符"></a> 41.2、字符流中第一个不重复的字符</h3>
+<p><strong>题目描述</strong>：</p>
+<p>  请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符 “go” 时，第一个只出现一次的字符是 “g”。当从该字符流中读出前六个字符“google&quot; 时，第一个只出现一次的字符是 “l”。</p>
+<p><strong>思路</strong>：</p>
+<p>  使用统计数组来统计每个字符出现的次数，本题涉及到的字符为都为 ASCII 码，因此使用一个大小为 128 的整型数组就能完成次数统计任务。</p>
+<p>  使用队列来存储到达的字符，并在每次有新的字符从字符流到达时移除队列头部那些出现次数不再是一次的元素。因为队列是先进先出顺序，因此队列头部的元素为第一次只出现一次的字符。</p>
+<p><strong>代码</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] cnts = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">128</span>];<br><span class="hljs-keyword">private</span> Queue&lt;Character&gt; queue = <span class="hljs-keyword">new</span> LinkedList&lt;&gt;();<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Insert</span><span class="hljs-params">(<span class="hljs-keyword">char</span> ch)</span> </span>&#123;<br>    cnts[ch]++;<br>    queue.add(ch);<br>    <span class="hljs-keyword">while</span> (!queue.isEmpty() &amp;&amp; cnts[queue.peek()] &gt; <span class="hljs-number">1</span>)<br>        queue.poll();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">char</span> <span class="hljs-title">FirstAppearingOnce</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> queue.isEmpty() ? <span class="hljs-string">&#x27;#&#x27;</span> : queue.peek();<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="59-滑动窗口的最大值"><a class="markdownIt-Anchor" href="#59-滑动窗口的最大值"></a> 59、滑动窗口的最大值</h3>
+<p><strong>题目描述</strong>：</p>
+<p>  给定一个数组和滑动窗口的大小，找出所有滑动窗口里数值的最大值。</p>
+<p>  例如，如果输入数组 {2, 3, 4, 2, 6, 2, 5, 1} 及滑动窗口的大小 3，那么一共存在 6 个滑动窗口，他们的最大值分别为 {4, 4, 6, 6, 6, 5}。</p>
+<img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202112140925614.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" />
+<p><strong>思路</strong>：</p>
+<p>  维护一个大小为窗口大小的大顶堆，顶堆元素则为当前窗口的最大值。</p>
+<p>  假设窗口的大小为 M，数组的长度为 N。在窗口向右移动时，需要先在堆中删除离开窗口的元素，并将新到达的元素添加到堆中，这两个操作的时间复杂度都为 log2M，因此算法的时间复杂度为 O(Nlog2M)，空间复杂度为 O(M)。</p>
+<p><strong>代码</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.*;<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> PriorityQueue&lt;Integer&gt; maxHeap = <span class="hljs-keyword">new</span> PriorityQueue&lt;&gt;((o1, o2) -&gt; o2 - o1);<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ArrayList&lt;Integer&gt; <span class="hljs-title">maxInWindows</span><span class="hljs-params">(<span class="hljs-keyword">int</span> [] num, <span class="hljs-keyword">int</span> size)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(size &lt;= <span class="hljs-number">0</span> || size &gt; num.length)&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ArrayList&lt;Integer&gt;();<br>        &#125;<br>        ArrayList&lt;Integer&gt; ans = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>        <span class="hljs-comment">// 初始化窗口</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; size; ++i)&#123;<br>            maxHeap.offer(num[i]);<br>        &#125;<br>        ans.add(maxHeap.peek());<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>, j = size; j &lt; num.length; ++i, ++j)&#123;<br>            maxHeap.remove(num[i]);<br>            maxHeap.offer(num[j]);<br>            ans.add(maxHeap.peek());<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="五-树"><a class="markdownIt-Anchor" href="#五-树"></a> 五、树</h2>
 <h3 id="33-二叉搜索树的后序遍历序列"><a class="markdownIt-Anchor" href="#33-二叉搜索树的后序遍历序列"></a> 33、二叉搜索树的后序遍历序列</h3>
 <p><strong>题目描述</strong>：</p>
