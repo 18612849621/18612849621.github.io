@@ -16,15 +16,15 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="算法思想  一、双指针  1、有序数组的Two Sum">
+  <meta name="description" content="算法思想  一、双指针  1、有序数组的Two Sum  Input: numbers&#x3D;{2, 7, 11, 15}, target&#x3D;9 Output: index1&#x3D;1, index2&#x3D;2  **题目描述：**在有序数组中找出两个数，使它们的和为 target。 使用双指针，一个指针指向值较小的元素，一个指针指向值较大的元素。指向较小元素的指针从头向尾遍历，指向较大元素的指针从尾向头遍历。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Leecode Top200">
 <meta property="og:url" content="http://example.com/2022/03/09/leecode/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="算法思想  一、双指针  1、有序数组的Two Sum">
+<meta property="og:description" content="算法思想  一、双指针  1、有序数组的Two Sum  Input: numbers&#x3D;{2, 7, 11, 15}, target&#x3D;9 Output: index1&#x3D;1, index2&#x3D;2  **题目描述：**在有序数组中找出两个数，使它们的和为 target。 使用双指针，一个指针指向值较小的元素，一个指针指向值较大的元素。指向较小元素的指针从头向尾遍历，指向较大元素的指针从尾向头遍历。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-08T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-03-09T08:09:23.807Z">
+<meta property="article:modified_time" content="2022-03-09T13:25:08.048Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      22 字
+      2.2k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      7 分钟
     </span>
   
 
@@ -243,6 +243,32 @@
               <h1 id="算法思想"><a class="markdownIt-Anchor" href="#算法思想"></a> 算法思想</h1>
 <h2 id="一-双指针"><a class="markdownIt-Anchor" href="#一-双指针"></a> 一、双指针</h2>
 <h3 id="1-有序数组的two-sum"><a class="markdownIt-Anchor" href="#1-有序数组的two-sum"></a> 1、有序数组的Two Sum</h3>
+<blockquote>
+<p>Input: numbers={2, 7, 11, 15}, target=9<br />
+Output: index1=1, index2=2</p>
+</blockquote>
+<p>**题目描述：**在有序数组中找出两个数，使它们的和为 target。</p>
+<p>使用双指针，一个指针指向值较小的元素，一个指针指向值较大的元素。指向较小元素的指针从头向尾遍历，指向较大元素的指针从尾向头遍历。</p>
+<ul>
+<li>如果两个指针指向元素的和 sum == target，那么得到要求的结果；</li>
+<li>如果 sum &gt; target，移动较大的元素，使 sum 变小一些；</li>
+<li>如果 sum &lt; target，移动较小的元素，使 sum 变大一些。</li>
+</ul>
+<p>数组中的元素最多遍历一次，时间复杂度为 O(N)。只使用了两个额外变量，空间复杂度为 O(1)。</p>
+<p><strong>思路及代码：</strong></p>
+<p>双指针<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">twoSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; numbers, <span class="hljs-keyword">int</span> target)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> l = <span class="hljs-number">0</span>, r = numbers.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span>(l &lt; r)&#123;<br>            <span class="hljs-keyword">int</span> cur = numbers[l] + numbers[r];<br>            <span class="hljs-keyword">if</span>(cur &gt; target) r--;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(cur &lt; target) l++;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> &#123;l + <span class="hljs-number">1</span>, r + <span class="hljs-number">1</span>&#125;;<br>        &#125;<br>        <span class="hljs-keyword">return</span> &#123;&#125;;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>顺序遍历+二分查找<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlog_2n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">twoSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; numbers, <span class="hljs-keyword">int</span> target)</span> </span>&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; numbers.<span class="hljs-built_in">size</span>(); ++i)&#123; <span class="hljs-comment">// 从头一步步查找</span><br>            <span class="hljs-keyword">int</span> t = target - numbers[i];  <span class="hljs-comment">// 记录当前需要找的另一个的数值</span><br>            <span class="hljs-keyword">int</span> l = i + <span class="hljs-number">1</span>; <span class="hljs-comment">// 因为不可能是当前这个了</span><br>            <span class="hljs-keyword">int</span> r = numbers.<span class="hljs-built_in">size</span>();<br>            <span class="hljs-keyword">while</span>(l &lt; r)&#123;<br>                <span class="hljs-keyword">int</span> mid = (r + l) &gt;&gt; <span class="hljs-number">1</span>;<br>                <span class="hljs-keyword">if</span>(numbers[mid] == t) <span class="hljs-keyword">return</span> &#123;i + <span class="hljs-number">1</span>, mid + <span class="hljs-number">1</span>&#125;; <span class="hljs-comment">// i为开始选择的 mid为最后得到的</span><br>                <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(numbers[mid] &gt; t) r = mid;<br>                <span class="hljs-keyword">else</span> l = mid + <span class="hljs-number">1</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> &#123;&#125;;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>同第二个方法，已知一个数然后求他的对立解<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">twoSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; numbers, <span class="hljs-keyword">int</span> target)</span> </span>&#123;<br>        unordered_map&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; m;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; numbers.<span class="hljs-built_in">size</span>(); ++i)&#123; <span class="hljs-comment">// 如果是第一个也不会马上就酸楚</span><br>            <span class="hljs-keyword">if</span>(m.<span class="hljs-built_in">count</span>(target - numbers[i])) <span class="hljs-keyword">return</span>&#123;m[target - numbers[i]] + <span class="hljs-number">1</span>, i + <span class="hljs-number">1</span>&#125;;<br>            m[numbers[i]] = i;<br>        &#125;<br>        <span class="hljs-keyword">return</span> &#123;&#125;;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="2-两数平方和"><a class="markdownIt-Anchor" href="#2-两数平方和"></a> 2. 两数平方和</h3>
+<p>**题目描述：**判断一个非负整数是否为两个整数的平方和。</p>
+<p>可以看成是在元素为 0~target 的有序数组中查找两个数，使得这两个数的平方和为 target，如果能找到，则返回 true，表示 target 是两个整数的平方和。</p>
+<p>本题和 167. Two Sum II - Input array is sorted 类似，只有一个明显区别：一个是和为 target，一个是平方和为 target。本题同样可以使用双指针得到两个数，使其平方和为 target。</p>
+<p>本题的关键是右指针的初始化，实现剪枝，从而降低时间复杂度。设右指针为 x，左指针固定为 0，为了使 02 + x2 的值尽可能接近 target，我们可以将 x 取为 sqrt(target)。</p>
+<p>因为最多只需要遍历一次 0~sqrt(target)，所以时间复杂度为 O(sqrt(target))。又因为只使用了两个额外的变量，因此空间复杂度为 O(1)。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">judgeSquareSum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> c)</span> </span>&#123; <span class="hljs-comment">// 简单题注意位数问题 避免bug</span><br>        <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">int</span> l = <span class="hljs-number">0</span>, r = <span class="hljs-built_in"><span class="hljs-keyword">int</span></span>(<span class="hljs-built_in">sqrt</span>(c)); <span class="hljs-comment">// 非负整数包括0, 记住double sqrt返回值是double</span><br>        <span class="hljs-keyword">while</span>(l &lt;= r)&#123; <span class="hljs-comment">// 两个数可以重复</span><br>            <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">int</span> cur = l * l + r * r;<br>            <span class="hljs-keyword">if</span>(cur == c) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(cur &lt; c) l++;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(cur &gt; c) r--;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
