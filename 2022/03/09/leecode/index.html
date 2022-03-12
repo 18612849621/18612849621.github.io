@@ -24,7 +24,7 @@
 <meta property="og:description" content="算法思想  一、双指针  1、有序数组的Two Sum  Input: numbers&#x3D;{2, 7, 11, 15}, target&#x3D;9 Output: index1&#x3D;1, index2&#x3D;2  **题目描述：**在有序数组中找出两个数，使它们的和为 target。 使用双指针，一个指针指向值较小的元素，一个指针指向值较大的元素。指向较小元素的指针从头向尾遍历，指向较大元素的指针从尾向头遍历。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-08T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-03-11T12:51:57.958Z">
+<meta property="article:modified_time" content="2022-03-12T13:41:53.764Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.3k 字
+      6k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17 分钟
+      19 分钟
     </span>
   
 
@@ -302,6 +302,10 @@ nums2 = [2,5,6],       n = 3</p>
 <h3 id="6-判断链表是否存在环"><a class="markdownIt-Anchor" href="#6-判断链表是否存在环"></a> 6、判断链表是否存在环</h3>
 <p>使用双指针，一个指针每次移动一个节点，一个指针每次移动两个节点，如果存在环，那么这两个指针一定会相遇。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for singly-linked list.</span><br><span class="hljs-comment"> * struct ListNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     ListNode *next;</span><br><span class="hljs-comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span><br><span class="hljs-comment"> * &#125;;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">hasCycle</span><span class="hljs-params">(ListNode *head)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(!head || !head-&gt;next) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        ListNode* slow = head;<br>        ListNode* fast = head-&gt;next;<br>        <span class="hljs-keyword">while</span>(fast != <span class="hljs-literal">NULL</span> &amp;&amp; fast-&gt;next != <span class="hljs-literal">NULL</span>)&#123;<br>            slow = slow-&gt;next;<br>            fast = fast-&gt;next-&gt;next;<br>            <span class="hljs-keyword">if</span>(slow == fast)<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="7-字典中的最长子序列"><a class="markdownIt-Anchor" href="#7-字典中的最长子序列"></a> 7、字典中的最长子序列</h3>
+<p>**题目描述：**删除 s 中的一些字符，使得它构成字符串列表 d 中的一个字符串，找出能构成的最长字符串。如果有多个相同长度的结果，返回字典序的最小字符串。</p>
+<p>通过删除字符串 s 中的一个字符能得到字符串 t，可以认为 t 是 s 的子序列，我们可以使用双指针来判断一个字符串是否为另一个字符串的子序列。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">string <span class="hljs-title">findLongestWord</span><span class="hljs-params">(string s, vector&lt;string&gt;&amp; dictionary)</span> </span>&#123;<br>        string ans; <span class="hljs-comment">// 用于存储正确答案</span><br>        <span class="hljs-built_in">sort</span>(dictionary.<span class="hljs-built_in">begin</span>(), dictionary.<span class="hljs-built_in">end</span>()); <span class="hljs-comment">// 因为题目中需要从小到大所以我们进行一下排序</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; dictionary.<span class="hljs-built_in">size</span>(); ++i)&#123;<br>            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">isSub</span>(s, dictionary[i]))&#123;<br>                ans = dictionary[i].<span class="hljs-built_in">size</span>() &gt; ans.<span class="hljs-built_in">size</span>() ? dictionary[i]:ans; <span class="hljs-comment">// 通过比较长度可以取长的部分为所求</span><br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSub</span><span class="hljs-params">(string s, string word)</span></span>&#123; <span class="hljs-comment">// 双指针检测</span><br>        <span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; s.<span class="hljs-built_in">size</span>(); ++i)&#123; <span class="hljs-comment">//直接按照模版遍历，然后去检验待测试word就好</span><br>            <span class="hljs-keyword">if</span>(s[i] == word[j]) j++;<br>        &#125;<br>        <span class="hljs-keyword">return</span> j == word.<span class="hljs-built_in">size</span>();<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
