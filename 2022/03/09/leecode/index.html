@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202203311025152.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202204101619535.png">
 <meta property="article:published_time" content="2022-03-08T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-04-11T06:20:48.255Z">
+<meta property="article:modified_time" content="2022-04-12T04:01:34.661Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202203210954783.png">
@@ -212,7 +212,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      114k 字
+      117k 字
     </span>
   
 
@@ -221,7 +221,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      356 分钟
+      365 分钟
     </span>
   
 
@@ -1697,6 +1697,68 @@ The second 1’s next greater number needs to search circularly, which is also 2
 </blockquote>
 <p>与 739. Daily Temperatures (Medium) 不同的是，数组是循环数组，并且最后要求的不是距离而是下一个元素。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">nextGreaterElements</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        stack&lt;<span class="hljs-keyword">int</span>&gt; s;<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">res</span><span class="hljs-params">(n, <span class="hljs-number">-1</span>)</span></span>; <span class="hljs-comment">// 没有比他大的数 显示-1 如果比他大那么就是那个数</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">2</span> * n; ++i)&#123; <span class="hljs-comment">// 因为是循环数组 所以需要转两圈</span><br>            <span class="hljs-keyword">int</span> cur = i % n; <span class="hljs-comment">// 获取当前的索引值</span><br>            <span class="hljs-keyword">while</span>(!s.<span class="hljs-built_in">empty</span>() &amp;&amp; nums[cur] &gt; nums[s.<span class="hljs-built_in">top</span>()])&#123;<br>                <span class="hljs-keyword">int</span> pre = s.<span class="hljs-built_in">top</span>();<br>                s.<span class="hljs-built_in">pop</span>();<br>                res[pre] = nums[cur];<br>            &#125;<br>            <span class="hljs-keyword">if</span>(i &lt; n)&#123;<br>                s.<span class="hljs-built_in">push</span>(i); <span class="hljs-comment">// 存入当前的遍历过的之前的值</span><br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h2 id="四-哈希表"><a class="markdownIt-Anchor" href="#四-哈希表"></a> 四、哈希表</h2>
+<h3 id="1-数组中两个数的和为给定值"><a class="markdownIt-Anchor" href="#1-数组中两个数的和为给定值"></a> 1、数组中两个数的和为给定值</h3>
+<p>可以先对数组进行排序，然后使用双指针方法或者二分查找方法。这样做的时间复杂度为 O(NlogN)，空间复杂度为 O(1)。</p>
+<p>用 HashMap 存储数组元素和索引的映射，在访问到 nums[i] 时，判断 HashMap 中是否存在 target - nums[i]，如果存在说明 target - nums[i] 所在的索引和 i 就是要找的两个数。该方法的时间复杂度为 O(N)，空间复杂度为 O(N)，使用空间来换取时间。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">twoSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> target)</span> </span>&#123;<br>        unordered_map&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; m;<br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n ; ++i)&#123;<br>            <span class="hljs-keyword">if</span>(m.<span class="hljs-built_in">count</span>(target - nums[i])) <span class="hljs-keyword">return</span> &#123;m[target - nums[i]], i&#125;;<br>            m[nums[i]] = i;<br>        &#125;<br>        <span class="hljs-keyword">return</span> &#123;&#125;;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="2-判断数组是否含有重复元素"><a class="markdownIt-Anchor" href="#2-判断数组是否含有重复元素"></a> 2、判断数组是否含有重复元素</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">containsDuplicate</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        unordered_set&lt;<span class="hljs-keyword">int</span>&gt; s;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> num: nums)&#123;<br>            s.<span class="hljs-built_in">insert</span>(num);<br>        &#125;<br>        <span class="hljs-keyword">return</span> s.<span class="hljs-built_in">size</span>() &lt; nums.<span class="hljs-built_in">size</span>();<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="3-最长和谐序列"><a class="markdownIt-Anchor" href="#3-最长和谐序列"></a> 3、最长和谐序列</h3>
+<blockquote>
+<p>Input: [1,3,2,2,5,2,3,7]<br />
+Output: 5<br />
+Explanation: The longest harmonious subsequence is [3,2,2,2,3].</p>
+</blockquote>
+<p>和谐序列中最大数和最小数之差正好为 1，应该注意的是序列的元素不一定是数组的连续元素。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">findLHS</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        unordered_map&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; m;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> num: nums)&#123;<br>            m[num]++;<br>        &#125;<br>        <span class="hljs-keyword">int</span> longest = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> num : nums)&#123;<br>            <span class="hljs-keyword">if</span>(m.<span class="hljs-built_in">count</span>(num + <span class="hljs-number">1</span>)) <span class="hljs-comment">// 保证和它相差一的数是存在的</span><br>                longest = <span class="hljs-built_in">max</span>(longest, m[num] + m[num + <span class="hljs-number">1</span>]);<br>        &#125;<br>        <span class="hljs-keyword">return</span> longest;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="4-最长连续序列"><a class="markdownIt-Anchor" href="#4-最长连续序列"></a> 4、最长连续序列</h3>
+<blockquote>
+<p>Given [100, 4, 200, 1, 3, 2],<br />
+The longest consecutive elements sequence is [1, 2, 3, 4]. Return its length: 4.</p>
+</blockquote>
+<p>要求以 O(N) 的时间复杂度求解。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">longestConsecutive</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(nums.<span class="hljs-built_in">size</span>() == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        map&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; m;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> num : nums)&#123;<br>            m[num] = <span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-keyword">int</span> cnt = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> [key, value]: m)&#123;<br>            <span class="hljs-keyword">if</span>(m.<span class="hljs-built_in">count</span>(key + <span class="hljs-number">1</span>)) cnt++;<br>            <span class="hljs-keyword">else</span>&#123;<br>                ans = <span class="hljs-built_in">max</span>(cnt, ans);<br>                cnt = <span class="hljs-number">1</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h2 id="五-字符串"><a class="markdownIt-Anchor" href="#五-字符串"></a> 五、字符串</h2>
+<h3 id="1-字符串循环移位包含"><a class="markdownIt-Anchor" href="#1-字符串循环移位包含"></a> 1、字符串循环移位包含</h3>
+<blockquote>
+<p>s1 = AABCD, s2 = CDAA<br />
+Return : true</p>
+</blockquote>
+<p><strong>查找子串用find函数</strong></p>
+<p>在string对象中，查找参数string类型的字符串是否存在。如果存在，返回起始位置（string::size_type类型）；不存在则返回 string::npos。</p>
+<p>给定两个字符串 s1 和 s2，要求判定 s2 是否能够被 s1 做循环移位得到的字符串包含。</p>
+<p>s1 进行循环移位的结果是 s1s1 的子字符串，因此只要判断 s2 是否是 s1s1 的子字符串即可。</p>
+<h3 id="2-字符串循环移位"><a class="markdownIt-Anchor" href="#2-字符串循环移位"></a> 2、字符串循环移位</h3>
+<blockquote>
+<p>s = “abcd123” k = 3<br />
+Return “123abcd”</p>
+</blockquote>
+<p>将字符串向右循环移动 k 位。</p>
+<p>将 abcd123 中的 abcd 和 123 单独翻转，得到 dcba321，然后对整个字符串进行翻转，得到 123abcd。</p>
+<h3 id="3-字符串中单词的翻转"><a class="markdownIt-Anchor" href="#3-字符串中单词的翻转"></a> 3、字符串中单词的翻转</h3>
+<blockquote>
+<p>s = “I am a student”<br />
+Return “student a am I”</p>
+</blockquote>
+<p>将每个单词翻转，然后将整个字符串翻转。</p>
+<h3 id="4-两个字符串包含的字符是否完全相同"><a class="markdownIt-Anchor" href="#4-两个字符串包含的字符是否完全相同"></a> 4、两个字符串包含的字符是否完全相同</h3>
+<blockquote>
+<p>s = “anagram”, t = “nagaram”, return true.<br />
+s = “rat”, t = “car”, return false.</p>
+</blockquote>
+<p>可以用 HashMap 来映射字符与出现次数，然后比较两个字符串出现的字符数量是否相同。</p>
+<p>由于本题的字符串只包含 26 个小写字符，因此可以使用长度为 26 的整型数组对字符串出现的字符进行统计，不再使用 HashMap。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isAnagram</span><span class="hljs-params">(string s, string t)</span> </span>&#123;<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">a</span><span class="hljs-params">(<span class="hljs-number">26</span>, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> c : s)&#123;<br>            a[c - <span class="hljs-string">&#x27;a&#x27;</span>]++; <span class="hljs-comment">// 记录一下有啥</span><br>        &#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> c : t)&#123;<br>            a[c - <span class="hljs-string">&#x27;a&#x27;</span>]--; <span class="hljs-comment">// 跟之前那个抵消</span><br>        &#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> k : a)&#123;<br>            <span class="hljs-keyword">if</span>(k != <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="5-计算一组字符集合可以组成的回文字符串的最大长度"><a class="markdownIt-Anchor" href="#5-计算一组字符集合可以组成的回文字符串的最大长度"></a> 5、计算一组字符集合可以组成的回文字符串的最大长度</h3>
+<blockquote>
+<p>Input : “abccccdd”<br />
+Output : 7<br />
+Explanation : One longest palindrome that can be built is “dccaccd”, whose length is 7.</p>
+</blockquote>
+<p>使用长度为 256 的整型数组来统计每个字符出现的个数，每个字符有偶数个可以用来构成回文字符串。</p>
+<p>因为回文字符串最中间的那个字符可以单独出现，所以如果有单独的字符就把它放到最中间。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">longestPalindrome</span><span class="hljs-params">(string s)</span> </span>&#123;<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">map</span><span class="hljs-params">(<span class="hljs-number">256</span>, <span class="hljs-number">0</span>)</span></span>; <span class="hljs-comment">// 用256可以吧他们都装下</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> c : s)&#123;<br>            map[c]++;<br>        &#125;<br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> m : map)&#123;<br>            res += (m / <span class="hljs-number">2</span>) * <span class="hljs-number">2</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(res &lt; s.<span class="hljs-built_in">size</span>())&#123; <span class="hljs-comment">// 说明有上面 / 2 的时候消去的单数</span><br>            res++;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
