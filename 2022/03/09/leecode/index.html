@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202203311025152.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202204101619535.png">
 <meta property="article:published_time" content="2022-03-08T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-04-17T07:38:37.329Z">
+<meta property="article:modified_time" content="2022-04-19T13:55:57.834Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202203210954783.png">
@@ -212,7 +212,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      126k 字
+      128k 字
     </span>
   
 
@@ -221,7 +221,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      394 分钟
+      401 分钟
     </span>
   
 
@@ -1885,6 +1885,49 @@ However, splitting into [1, 0], [2], [3], [4] is the highest number of chunks po
 </blockquote>
 <p><strong>题目描述</strong>：给一个长度为 n 的数组, 其元素的值也是从 0 ~ n - 1 的一个排列, 我们将这个数组分为若干部分, 将这些部分独自地排序, 然后将这些部分连接起来, 这个结果和将原数组直接排序的结果相同.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxChunksToSorted</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; arr)</span> </span>&#123; <span class="hljs-comment">// 从小到大是顺序, 这个数组必须是每个数全都存在的</span><br>        <span class="hljs-keyword">int</span> right = arr[<span class="hljs-number">0</span>], res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; arr.<span class="hljs-built_in">size</span>(); ++i)&#123;<br>            right = <span class="hljs-built_in">max</span>(arr[i], right);<br>            <span class="hljs-keyword">if</span>(right == i) res++; <span class="hljs-comment">// 说明了我当前最大数的边界刚到自己的位置，这个时候切分，我左边的一定比我小且一定可以排满，</span><br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h2 id="七-图"><a class="markdownIt-Anchor" href="#七-图"></a> 七、图</h2>
+<h3 id="1-二分图"><a class="markdownIt-Anchor" href="#1-二分图"></a> 1、二分图</h3>
+<p>如果可以用两种颜色对图中的节点进行着色，并且保证相邻的节点颜色不同，那么这个图就是二分图。</p>
+<h4 id="1判断是否为二分图"><a class="markdownIt-Anchor" href="#1判断是否为二分图"></a> 1）判断是否为二分图</h4>
+<blockquote>
+<p>Input: [[1,3], [0,2], [1,3], [0,2]]<br />
+Output: true<br />
+Explanation:<br />
+The graph looks like this:<br />
+0----1<br />
+|    |<br />
+|    |<br />
+3----2<br />
+We can divide the vertices into two groups: {0, 2} and {1, 3}.</p>
+</blockquote>
+<blockquote>
+<p>Example 2:<br />
+Input: [[1,2,3], [0,2], [0,1,3], [0,2]]<br />
+Output: false<br />
+Explanation:<br />
+The graph looks like this:<br />
+0----1<br />
+| \  |<br />
+|  \ |<br />
+3----2<br />
+We cannot find a way to divide the set of nodes into two independent subsets.</p>
+</blockquote>
+<p>就是BFS然后遍历之后不是单纯的设立是否遍历过，而是遍判断条件，以及设立相邻节点不同颜色的限制</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt; &gt; G;<br>    vector&lt;<span class="hljs-keyword">bool</span>&gt; vis = vector&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-number">101</span>);<br>    vector&lt;<span class="hljs-keyword">bool</span>&gt; color = vector&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-number">101</span>); <span class="hljs-comment">// 反正都是0 1就是</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isBipartite</span><span class="hljs-params">(vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt;&amp; graph)</span> </span>&#123;<br>        G = graph; <span class="hljs-comment">// 赋值一下（主要是懒 后面懒得写） 这个矩阵的意思就是第一行就是</span><br>        <span class="hljs-keyword">int</span> n = graph.<span class="hljs-built_in">size</span>(); <span class="hljs-comment">// 记录有多少个节点</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i)&#123;<br>            <span class="hljs-keyword">if</span>(!vis[i])&#123;<br>                <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">bfs</span>(i))&#123;<br>                    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span></span>&#123; <span class="hljs-comment">// 如果是连通图 遍历一边就可以结束 </span><br>        vis[s] = <span class="hljs-literal">true</span>;<br>        queue&lt;<span class="hljs-keyword">int</span>&gt; q;<br>        q.<span class="hljs-built_in">push</span>(s);<br>        <span class="hljs-keyword">while</span>(!q.<span class="hljs-built_in">empty</span>())&#123;<br>            <span class="hljs-keyword">int</span> cur = q.<span class="hljs-built_in">front</span>();<br>            q.<span class="hljs-built_in">pop</span>();<br>            vis[cur] = <span class="hljs-literal">true</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> node : G[cur])&#123;<br>                <span class="hljs-keyword">if</span>(!vis[node])&#123;<br>                    q.<span class="hljs-built_in">push</span>(node);<br>                    color[node] =! color[cur]; <span class="hljs-comment">// 相邻节点获得反向颜色</span><br>                &#125;<span class="hljs-keyword">else</span>&#123;<br>                    <span class="hljs-keyword">if</span>(color[node] == color[cur])&#123; <span class="hljs-comment">// 相邻节点是相同颜色了 那就错了</span><br>                        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>                    &#125;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="2-拓扑排序"><a class="markdownIt-Anchor" href="#2-拓扑排序"></a> 2、拓扑排序</h3>
+<p>常用于在具有先序关系的任务规划中。</p>
+<h3 id="1课程安排的合法性"><a class="markdownIt-Anchor" href="#1课程安排的合法性"></a> 1）课程安排的合法性</h3>
+<blockquote>
+<p>2, [[1,0]]<br />
+return true</p>
+</blockquote>
+<blockquote>
+<p>2, [[1,0],[0,1]]<br />
+return false</p>
+</blockquote>
+<p><strong>题目描述</strong>：一个课程可能会先修课程，判断给定的先修课程规定是否合法。</p>
+<p>本题不需要使用拓扑排序，只需要检测有向图是否存在环即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    vector&lt;<span class="hljs-keyword">bool</span>&gt; vis = vector&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-number">10001</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// 用于剪支加速用的vis</span><br>    vector&lt;<span class="hljs-keyword">bool</span>&gt; dfsvis = vector&lt;<span class="hljs-keyword">bool</span>&gt;(<span class="hljs-number">10001</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// dfs用于记录是否走过的vis</span><br>    vector&lt;<span class="hljs-keyword">int</span>&gt; M[<span class="hljs-number">10001</span>];<br>    <span class="hljs-keyword">int</span> n;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">canFinish</span><span class="hljs-params">(<span class="hljs-keyword">int</span> numCourses, vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> p : prerequisites)&#123;<br>            M[p[<span class="hljs-number">1</span>]].<span class="hljs-built_in">push_back</span>(p[<span class="hljs-number">0</span>]);<br>        &#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; numCourses; ++i)&#123;<br>            <span class="hljs-keyword">if</span>(!vis[i])<br>                <span class="hljs-keyword">if</span>(<span class="hljs-built_in">dfs</span>(i)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span></span>&#123;<br>        vis[s] = <span class="hljs-literal">true</span>; <span class="hljs-comment">// 这个用于剪支 防止重复</span><br>        dfsvis[s] = <span class="hljs-literal">true</span>; <span class="hljs-comment">// 这个用于检测环</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> edge : M[s])&#123;<br>            <span class="hljs-keyword">if</span>(!vis[edge])&#123;<span class="hljs-comment">// 如果这个分支没走过那就dfs一下</span><br>                <span class="hljs-keyword">if</span>(<span class="hljs-built_in">dfs</span>(edge)) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125; <br>                <br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(dfsvis[edge])&#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125; <span class="hljs-comment">// 如果这个节点在当前dfs过程中发现了环 就取消所有</span><br>        &#125;<br>        dfsvis[s] = <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
