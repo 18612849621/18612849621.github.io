@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202203311025152.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202204101619535.png">
 <meta property="article:published_time" content="2022-03-08T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-04-23T08:29:51.527Z">
+<meta property="article:modified_time" content="2022-04-24T05:16:54.247Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202203210954783.png">
@@ -221,7 +221,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      414 分钟
+      415 分钟
     </span>
   
 
@@ -1983,6 +1983,8 @@ Output: 2</p>
 <p>将数组的所有元素异或得到的结果为不存在重复的两个元素异或的结果。</p>
 <p>diff &amp;= -diff 得到出 diff 最右侧不为 0 的位，也就是不存在重复的两个元素在位级表示上最右侧不同的那一位，利用这一位就可以将两个元素区分开来。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">singleNumber</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(<span class="hljs-number">2</span>)</span></span>;<br>        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> cur = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> num : nums)&#123;<br>            cur ^= num;<br>        &#125;<br>        <span class="hljs-comment">// cur 为 数组中两个不同元素的异或结果</span><br>        cur &amp;= -cur; <span class="hljs-comment">// 找到最右的第一位1</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> num : nums)&#123;<br>            <span class="hljs-keyword">if</span>((cur &amp; num) == <span class="hljs-number">0</span>) ans[<span class="hljs-number">0</span>] ^= num;<br>            <span class="hljs-keyword">else</span> ans[<span class="hljs-number">1</span>] ^= num;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="5-翻转一个数的比特位"><a class="markdownIt-Anchor" href="#5-翻转一个数的比特位"></a> 5、翻转一个数的比特位</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">uint32_t</span> <span class="hljs-title">reverseBits</span><span class="hljs-params">(<span class="hljs-keyword">uint32_t</span> n)</span> </span>&#123;<br>        <span class="hljs-keyword">uint32_t</span> ans = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; ++i)&#123;<br>            ans &lt;&lt;= <span class="hljs-number">1</span>;<br>            ans |= (n &amp; <span class="hljs-number">1</span>); <span class="hljs-comment">// 因为或运算就是0 就是0 如果是1 就得到1 n &amp; 1代表提取最后一位</span><br>            n &gt;&gt;= <span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
