@@ -16,19 +16,19 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="潘潘总结算法模版  一、查找  二、排序">
+  <meta name="description" content="CodeTop做题总结🔥 按照后端做题的频率顺序进行练习  Day1  206、反转链表 递归法 时间复杂度O(n)O(n)O(n) 空间复杂度O(n)O(n)O(n) 123456789101112131415161718192021&#x2F;** * Definition for singly-linked list. * struct ListNode &amp;#123; *     int val;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法模版">
+<meta property="og:title" content="CodeTop">
 <meta property="og:url" content="http://example.com/2022/03/15/%E7%AE%97%E6%B3%95%E6%A8%A1%E7%89%88/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="潘潘总结算法模版  一、查找  二、排序">
+<meta property="og:description" content="CodeTop做题总结🔥 按照后端做题的频率顺序进行练习  Day1  206、反转链表 递归法 时间复杂度O(n)O(n)O(n) 空间复杂度O(n)O(n)O(n) 123456789101112131415161718192021&#x2F;** * Definition for singly-linked list. * struct ListNode &amp;#123; *     int val;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-15T01:53:26.674Z">
-<meta property="article:modified_time" content="2022-03-15T01:55:33.549Z">
+<meta property="article:modified_time" content="2022-04-28T00:18:04.538Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
-  <title>算法模版 - Hexo</title>
+  <title>CodeTop - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +178,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="算法模版">
+            <span class="h2" id="subtitle" title="CodeTop">
               
             </span>
 
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      16 字
+      630 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      2 分钟
     </span>
   
 
@@ -237,12 +237,16 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">算法模版</h1>
+            <h1 style="display: none">CodeTop</h1>
             
             <div class="markdown-body">
-              <h1 id="潘潘总结算法模版"><a class="markdownIt-Anchor" href="#潘潘总结算法模版"></a> 潘潘总结算法模版</h1>
-<h2 id="一-查找"><a class="markdownIt-Anchor" href="#一-查找"></a> 一、查找</h2>
-<h2 id="二-排序"><a class="markdownIt-Anchor" href="#二-排序"></a> 二、排序</h2>
+              <h2 id="codetop做题总结"><a class="markdownIt-Anchor" href="#codetop做题总结"></a> CodeTop做题总结🔥</h2>
+<p>按照后端做题的频率顺序进行练习</p>
+<h2 id="day1"><a class="markdownIt-Anchor" href="#day1"></a> Day1</h2>
+<h3 id="206-反转链表"><a class="markdownIt-Anchor" href="#206-反转链表"></a> 206、反转链表</h3>
+<p><strong>递归法</strong> 时间复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 空间复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition for singly-linked list.</span><br><span class="hljs-comment"> * struct ListNode &#123;</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     ListNode *next;</span><br><span class="hljs-comment"> *     ListNode() : val(0), next(nullptr) &#123;&#125;</span><br><span class="hljs-comment"> *     ListNode(int x) : val(x), next(nullptr) &#123;&#125;</span><br><span class="hljs-comment"> *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125;</span><br><span class="hljs-comment"> * &#125;;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">ListNode* <span class="hljs-title">reverseList</span><span class="hljs-params">(ListNode* head)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(!head || !head-&gt;next) <span class="hljs-keyword">return</span> head;<br>        ListNode* nextNode = head-&gt;next;<br>        ListNode* newHead = <span class="hljs-built_in">reverseList</span>(nextNode);<br>        nextNode-&gt;next = head;<br>        head-&gt;next = <span class="hljs-literal">NULL</span>;<br>        <span class="hljs-keyword">return</span> newHead;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p><strong>头插法</strong> 时间复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 空间复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
 
             </div>
             <hr>
