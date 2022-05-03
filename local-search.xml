@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>Linux高性能服务器编程</title>
+    <link href="/2022/05/03/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%96%E7%A8%8B/"/>
+    <url>/2022/05/03/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%96%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[<h1 id="第1章-tcpip协议族"><a class="markdownIt-Anchor" href="#第1章-tcpip协议族"></a> 第1章 TCP/IP协议族</h1><h2 id="11-tcpip协议族体系结构以及主要协议"><a class="markdownIt-Anchor" href="#11-tcpip协议族体系结构以及主要协议"></a> 1.1 TCP/IP协议族体系结构以及主要协议</h2><p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205032144241.png" alt="截屏2022-05-03 下午9.44.36" /></p><h3 id="111-数据链路层"><a class="markdownIt-Anchor" href="#111-数据链路层"></a> 1.1.1 数据链路层</h3><p><strong>ARP和RARP协议</strong>实现了IP地址和机器物理地址(通 常是MAC地址，以太网、令牌环和802.11无线网络都使用MAC地址) 之间的相互转换</p><h4 id="arp协议address-resolve-protocol地址解析协议"><a class="markdownIt-Anchor" href="#arp协议address-resolve-protocol地址解析协议"></a> ARP协议（Address Resolve Protocol，地址解析协议）</h4><p>网络层使用<strong>IP地址</strong>寻址一台机器，而数据链路层使用<strong>物理地址</strong>寻址一台机器，因此网络层必须先将目标机器的<u>IP地址转化成其物理地址</u>，才能使用数据链路层提供的服务。</p><h4 id="rarp协议reverse-address-resolve-protocol逆地址解析协议"><a class="markdownIt-Anchor" href="#rarp协议reverse-address-resolve-protocol逆地址解析协议"></a> RARP协议(Reverse Address Resolve Protocol，逆地址解析协议)</h4><p>用于网络上的某些无盘工作站。因为缺乏存储设备，无盘工作站无法记住自己的IP地址，但它们可以利用网卡上的物理地址来向网络管理者(服务器或网络管理软件)查询自身的IP地址。</p><p>PS：运行RARP服 务的网络管理者通常存有该网络上所有机器的物理地址到IP地址的映射。</p><h3 id="112-网络层"><a class="markdownIt-Anchor" href="#112-网络层"></a> 1.1.2 网络层</h3><p>网络层实现数据包的选路和转发。</p><p>通信的两台主机一般<u>不是直接相连</u>的，而是通过多个中间节点(路由器)连接的就是选择这些中间节点，以确定两台主机之间的通信路径。同时，网络层对上层协议<u>隐藏了网络拓扑连接</u>的细节，使得在<u>传输层和网络应用程序</u><u>看来，通信的双方是直接相连</u>的。</p><h4 id="ip协议internet-protocol因特网协议"><a class="markdownIt-Anchor" href="#ip协议internet-protocol因特网协议"></a> IP协议（Internet Protocol，因特网协议）</h4><p>IP协议<strong>根据数据包的目的IP地址</strong>来决定如何投递它。</p><p>如果数据包<u>不能直接发送</u>给目标主机，那么IP协议就为它<strong>寻找一个合适的下一跳(next hop)<strong>路由器，并将数据包</strong>交付给该路由器</strong>来转发。</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CodeTop</title>
     <link href="/2022/03/15/%E7%AE%97%E6%B3%95%E6%A8%A1%E7%89%88/"/>
     <url>/2022/03/15/%E7%AE%97%E6%B3%95%E6%A8%A1%E7%89%88/</url>
