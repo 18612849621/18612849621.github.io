@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205072139077.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205072159863.png">
 <meta property="article:published_time" content="2022-05-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-07T14:07:40.452Z">
+<meta property="article:modified_time" content="2022-05-08T00:18:15.358Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205071505040.png">
@@ -483,7 +483,7 @@
 <p>无状态服务的优点也很明显:<strong>简单、高效</strong>。我们无须为保持通信的状态而分配一些内核资源，也无须每次传输数据时都携带状态信息。在网络协议中，无状态是很常见的，比如<u>UDP协议和HTTP协议都是无状态协议</u>。以HTTP协议为例，一个浏览器的连续两次网页请求之间没有任何关联，它们将被Web服务器独立地处理。</p>
 <h3 id="无连接connectionless"><a class="markdownIt-Anchor" href="#无连接connectionless"></a> 无连接(connectionless)</h3>
 <p>IP通信双方都<strong>不长久地维持</strong>对方的任何信息。这样，上层协议<strong>每次</strong>发送数据的时候，都必须<strong>明确指定</strong>对方的IP地址。</p>
-<p><strong>不可靠</strong></p>
+<h3 id="不可靠"><a class="markdownIt-Anchor" href="#不可靠"></a> 不可靠</h3>
 <p>IP协议<strong>不能保证</strong>IP数据报准确地到达接收端，它只是承诺尽最大努力(best effort)。</p>
 <p>很多种情况都能导致IP数据报发送失败。比如，某个中转路由器发现IP数据报在网络上存活的时间太长(根据IP数据报头部字段TTL判断，见后文)，那么它将丢弃之，并返回一个ICMP错误消息(超时错误)给发送端。</p>
 <p>又比如，接收端发现收到的IP数据报不正确(通过校验机制)，它也将丢弃之，并返回一个ICMP错误消息(IP头部参数错误)给发送端。</p>
