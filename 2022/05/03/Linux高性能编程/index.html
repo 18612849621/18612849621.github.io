@@ -41,8 +41,12 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205072159863.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205081527791.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205081554166.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091446138.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091501261.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091506319.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091514830.png">
 <meta property="article:published_time" content="2022-05-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-08T14:02:19.905Z">
+<meta property="article:modified_time" content="2022-05-09T07:17:56.858Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205071505040.png">
@@ -218,7 +222,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      20k 字
+      23k 字
     </span>
   
 
@@ -227,7 +231,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      64 分钟
+      71 分钟
     </span>
   
 
@@ -585,6 +589,39 @@
 <p>4)将TTL值减1。</p>
 <p>5)处理IP头部选项。</p>
 <p>6)如果有必要，则执行IP分片操作。</p>
+<h2 id="26-重定向"><a class="markdownIt-Anchor" href="#26-重定向"></a> 2.6 重定向</h2>
+<p>图2-3显示了<u>ICMP重定向报文也能用于更新路由表</u>，因此本节我们简要讨论ICMP重定向。</p>
+<h3 id="261-icmp重定向报文"><a class="markdownIt-Anchor" href="#261-icmp重定向报文"></a> 2.6.1 ICMP重定向报文</h3>
+<p>ICMP重定向报文格式如图2-4所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091446138.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午2.46.34" /></p>
+<p>我们在1.1节讨论过ICMP报文头部的3个固定字段:8位类型、8位代码和16位校验和。ICMP重定向报文的类型值是5，代码字段有4个可选值，用来区分不同的重定向类型。本书仅讨论<strong>主机重定向</strong>，其代码值为1。</p>
+<p>ICMP重定向报文的数据部分含义很明确，它给接收方提供了如下两个信息:</p>
+<p>1、引起重定向的IP数据报(即图2-4中的原始IP数据报)的源端IP地址。</p>
+<p>2、应该使用的路由器的IP地址。</p>
+<p>接收主机根据这两个信息就可以断定引起重定向的IP数据报<u>应该使用哪个路由器来转发</u>，并且以此来更新路由表(通常是<strong>更新路由表缓冲</strong>，而不是直接更改路由表)。</p>
+<p>/proc/sys/net/ipv4/conf/all/send_redirects内核参数指定<u>是否允许发送ICMP重定向报文</u>，而/proc/sys/net/ipv4/conf/all/accept_redirects内核参数则指定<u>是否允许接收ICMP重定向</u>报文。一般来说，<strong>主机只能接收</strong>ICMP重定向报文，而<strong>路由器只能发送</strong>ICMP重定向报文。</p>
+<h3 id="262-主机重定向实例"><a class="markdownIt-Anchor" href="#262-主机重定向实例"></a> 2.6.2 主机重定向实例</h3>
+<p>2.4.3节中，我们把机器ernest-laptop的<strong>网关</strong>设置成了机器Kongming20，2.5节中我们又使能了Kongming20的<strong>数据报转发</strong>功能，因此机器ernest-laptop将通过Kongming20来访问因特网，比如在ernest- laptop上执行如下ping命令:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++">	 $ping www.baidu.com<br>   PING www.a.shifen.<span class="hljs-built_in">com</span>(<span class="hljs-number">119.75</span><span class="hljs-number">.217</span><span class="hljs-number">.56</span>)<span class="hljs-number">56</span>(<span class="hljs-number">84</span>)bytes of data.<br>   <span class="hljs-function">From <span class="hljs-title">Kongming20</span><span class="hljs-params">(<span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span>)</span>:icmp_seq=</span><span class="hljs-number">1</span> <span class="hljs-function">Redirect <span class="hljs-title">Host</span><span class="hljs-params">(New</span></span><br><span class="hljs-params"><span class="hljs-function">nexthop:<span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.1</span>)</span></span><br><span class="hljs-function">   64 bytes from 119.75.217.56:icmp_seq=</span><span class="hljs-number">1</span> ttl=<span class="hljs-number">54</span> time=<span class="hljs-number">6.78</span> ms<br>   ---www.a.shifen.com ping statistics---<br>   <span class="hljs-number">1</span> packets transmitted,<span class="hljs-number">1</span> received,<span class="hljs-number">0</span>%packet loss,time <span class="hljs-number">0</span>ms<br>   rtt min/avg/max/mdev=<span class="hljs-number">6.789</span>/<span class="hljs-number">6.789</span>/<span class="hljs-number">6.789</span>/<span class="hljs-number">0.000</span> ms<br></code></pre></td></tr></table></figure>
+<p>从ping命令的输出来看，Kongming20给ernest-laptop发送了一个 ICMP重定向报文，告诉它请通过192.168.1.1来访问目标机器，因为这对ernest-laptop来说是更合理的路由方式。当主机ernest-laptop收到这样的ICMP重定向报文后，它将更新其路由表缓冲(使用命令route-Cn查看)，并使用新的路由方式来发送后续数据报。上面讨论的重定向过程可用图2-5来总结。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091501261.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午3.01.26" /></p>
+<p>PS: 相当于告诉你这条路不好使，告诉你一条更好的路线</p>
+<h2 id="27-ipv6头部结构"><a class="markdownIt-Anchor" href="#27-ipv6头部结构"></a> 2.7 IPv6头部结构</h2>
+<p>Pv6协议是网络层技术发展的必然趋势。它<strong>不仅解决了IPv4地址不够用</strong>的问题，还做了很大的改进。比如，<strong>增加了多播和流</strong>的功能，为网络上多媒体内容的质量提供精细的控制;引入自动配置功能，使得局域网管理更方便;<strong>增加了专门的网络安全功能</strong>等。本节简要地讨论 IPv6头部结构，它的更多细节请参考其标准文档RFC 2460。</p>
+<h3 id="271-ipv6固定头部结构"><a class="markdownIt-Anchor" href="#271-ipv6固定头部结构"></a> 2.7.1 IPv6固定头部结构</h3>
+<p>IPv6头部由40字节的固定头部和可变长的扩展头部组成。图2-6所示是IPv6的固定头部结构。<img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091506319.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午3.06.55" /></p>
+<p><strong>4位版本号(version)</strong>：指定IP协议的版本。对IPv6来说，其值是6。 8位通信类型(traffic class)指示数据流通信类型或优先级，和IPv4中的TOS类似。</p>
+<p><strong>20位流标签(flow label)</strong>：是IPv6新增加的字段，用于某些对连接的服务质量有特殊要求的通信，比如音频或视频等实时数据传输。</p>
+<p><strong>16位净荷长度(payload length)</strong>：指的是IPv6扩展头部和应用程序数 据长度之和，不包括固定头部长度。</p>
+<p><strong>8位下一个包头(next header)</strong>：指出紧跟IPv6固定头部后的包头类 型，如扩展头(如果有的话)或某个上层协议头(比如TCP，UDP或 ICMP)。它类似于IPv4头部中的协议字段，且相同的取值有相同的含 义。</p>
+<p><strong>8位跳数限制(hop limit)<strong>和</strong>IPv4中的TTL</strong>含义相同。</p>
+<p><strong>IPv6用128位(16字节)</strong>:来表示IP地址，使得IP地址的总量达到了<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>128</mn></msup></mrow><annotation encoding="application/x-tex">2^{128}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">2</span><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span></span>个。所以有人说，“IPv6使得地球上的每粒沙子都有一个IP地址”。</p>
+<p><strong>32位表示的IPv4地址</strong>一般用点分十进制来表示，而<strong>IPv6地址</strong>则用十六进制字符串表示，比如“FE80:0000:0000:0000:2234:5678:0000:0012”。可见，<strong>IPv6地址</strong>用“:”分割成8组，每组包含2字节。但这种表示方法过于麻烦，通常可以使用所谓的<strong>零压缩法</strong>来将其简写，也就是<strong>省略连续的、全零</strong>的组。 比如，上面的例子使用零压缩法可表示为“FE80::2234:5678:0000:0012”。不过零压缩法对一个IPv6地址<strong>只能使用一次</strong>，比如上面的例子中，字节组“5678”后面的全零组就不能再省略，否则我们就<u>无法计算每个“::”之间省略了多少个</u>全零组。</p>
+<h3 id="272-ipv6扩展头部"><a class="markdownIt-Anchor" href="#272-ipv6扩展头部"></a> 2.7.2 IPv6扩展头部</h3>
+<p>可变长的扩展头部使得IPv6能支持更多的选项，并且很便于将来的扩展需要。它的长度可以是0，表示<strong>数据报没使用任何扩展头部</strong>。一个数据报可以包含<strong>多个</strong>扩展头部，每个扩展头部的<u>类型由前一个头部</u> (固定头部或扩展头部)中的<u>下一个报头字段</u>指定。目前可以使用的m扩展头部如表2-3所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091514830.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午3.14.02" /></p>
+<p><strong>注意</strong> <u>IPv6协议并不是IPv4协议的简单扩展</u>，而是完全<strong>独立</strong>的协议。用以太网帧封装的IPv6数据报和IPv4数据报具有不同的类型值。</p>
+<p>第1章提到，<strong>IPv4数据报</strong>的以太网帧封装类型值是0x800，而<strong>IPv6数据报</strong>的以太网帧封装类型值是0x86dd(见RFC 2464)。</p>
 
             </div>
             <hr>
