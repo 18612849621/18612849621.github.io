@@ -47,8 +47,14 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091514830.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091554080.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091554401.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091600766.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091629187.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091633489.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091654334.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091740284.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091833324.png">
 <meta property="article:published_time" content="2022-05-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-09T07:58:52.534Z">
+<meta property="article:modified_time" content="2022-05-09T10:58:48.963Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205071505040.png">
@@ -224,7 +230,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      25k 字
+      32k 字
     </span>
   
 
@@ -233,7 +239,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      77 分钟
+      98 分钟
     </span>
   
 
@@ -647,6 +653,75 @@
 <p>1、TCP协议采用发送应答机制，即发送端发送的每个TCP报文段都必须得到接收方的应答，才认为这个TCP报文段传输成功。</p>
 <p>2、TCP协议采用超时重传机制，发送端在发送出一个 TCP报文段之后启动定时器，如果在定时时间内未收到应答，它将重发该报文段。3、因为TCP报文段最终是以IP数据报发送的，而IP数据报到达接收端<strong>可能乱序、重复</strong>，所以TCP协议还会对接收到的TCP报文段<strong>重排、整理，再交付</strong>给应用层。</p>
 <p><u>UDP协议则和IP协议一样，提供不可靠服务</u>。它们都需要上层协 议来处理数据确认和超时重传。</p>
+<h2 id="32-tcp头部结构"><a class="markdownIt-Anchor" href="#32-tcp头部结构"></a> 3.2 TCP头部结构</h2>
+<p>TCP头部信息出现在每个TCP报文段中，用于指定通信的源端端口，目的端端口，管理TCP连接等，本节详细介绍TCP的头部结构，包括固定头部结构和头部选项。</p>
+<h3 id="321-tcp固定头部结构"><a class="markdownIt-Anchor" href="#321-tcp固定头部结构"></a> 3.2.1 TCP固定头部结构</h3>
+<p>TCP头部结构如图3-3所示，其中的诸多字段为管理TCP连接和控制数据流提供了足够的信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091600766.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午4.00.34" /></p>
+<p><strong>16位端口号(port number)</strong>:告知主机该报文段是来自哪里(源端口)以及传给哪个上层协议或应用程序(目的端口)的。进行TCP通信时，客户端通常使用系统自动选择的临时端口号，而服务器则使用知名服务端口号。1.3节中提到过，所有知名服务使用的端口号都定义在/etc/services文件中。</p>
+<p><strong>32位序号(sequence number)</strong>:一次TCP通信(从TCP连接建立到断开)过程中某一个传输方向上的字节流的每个字节的编号。假设主机A和主机B进行TCP通信，A发送给B的第一个TCP报文段中，序号值被系统初始化为某个随机值ISN(Initial Sequence Number，初始序号 值)。那么在该传输方向上(从A到B)，后续的TCP报文段中序号值<u>将被系统设置成ISN加上该报文段所携带数据的第一个字节在整个字节流中的偏移</u>。例如，某个TCP报文段传送的数据是字节流中的第1025~2048字节，那么该报文段的序号值就是ISN+1025。另外一个传输方向 (从B到A)的TCP报文段的序号值也具有相同的含义。</p>
+<p><strong>32位确认号(acknowledgement number)</strong>:用作对<u>另一方发送来的TCP报文段的响应</u>。其值是收到的TCP报文段的序号值加1。假设主机 A和主机B进行TCP通信，那么A发送出的TCP报文段不仅携带自己的序号，而且包含对B发送来的TCP报文段的确认号。反之，B发送出的 TCP报文段也同时携带自己的序号和对A发送来的报文段的确认号。</p>
+<p><strong>4位头部长度(header length)</strong>:标识该TCP头部有多少个32bit字 (4字节)。因为4位最大能表示15，所以TCP头部最长是60字节。</p>
+<p><strong>6位标志位</strong>包含如下几项:</p>
+<p>1、URG标志，表示紧急指针(urgent pointer)是否有效。</p>
+<p>2、ACK标志，表示确认号是否有效。我们称携带ACK标志的TCP报文段为确认报文段。</p>
+<p>3、PSH标志，提示接收端应用程序应该立即从TCP接收缓冲区中读走数据，为接收后续数据腾出空间(如果应用程序不将接收到的数据读走，它们就会一直停留在TCP接收缓冲区中)。</p>
+<p>4、RST标志，表示要求对方重新建立连接。我们称携带RST标志的TCP报文段为复位报文段。</p>
+<p>5、SYN标志，表示请求建立一个连接。我们称携带SYN标志的TCP报文段为同步报文段。</p>
+<p>6、FIN标志，表示通知对方本端要关闭连接了。我们称携带FIN标志的TCP报文段为结束报文段。</p>
+<p><strong>16位窗口大小(window size)</strong>:是<u>TCP流量控制</u>的一个手段。这里说的窗口，指的是接收通告窗口(Receiver Window，RWND)。它告诉对方本端的<u>TCP接收缓冲区还能容纳多少字节</u>的数据，这样对方就可以控制发送数据的速度。</p>
+<p><strong>16位校验和(TCP checksum)</strong>:由发送端填充，接收端对TCP报 文段执行CRC算法以检验TCP报文段在传输过程中是否损坏。注意，这 个校验不仅包括TCP头部，也包括数据部分。这也是TCP可靠传输的一 个重要保障。</p>
+<p><strong>16位紧急指针(urgent pointer)</strong>:是一个正的偏移量。它和序号字段的值相加表示最后一个紧急数据的下一字节的序号。因此，确切地说，这个字段是<u>紧急指针相对当前序号的偏移</u>，不妨称之为紧急偏移。TCP的紧急指针是<u>发送端向接收端发送紧急数据</u>的方法。我们将在后面讨论TCP紧急数据。</p>
+<h3 id="322-tcp头部选项"><a class="markdownIt-Anchor" href="#322-tcp头部选项"></a> 3.2.2 TCP头部选项</h3>
+<p>TCP头部的最后一个选项字段(options)是<u>可变长的可选</u>信息。这部分最多包含40字节，因为TCP头部最长是60字节(其中还包含前面讨论的20字节的固定部分)。典型的TCP头部选项结构如图3-4所示。<img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091629187.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午4.29.12" /></p>
+<p>选项的第一个字段kind说明选项的类型。有的TCP选项没有后面两个字段，仅包含1字节的kind字段。第二个字段length(如果有的话)指定该选项的总长度，该长度包括kind字段和length字段占据的2字节。第三个字段info(如果有的话)是选项的具体信息。常见的TCP选项有7 种，如图3-5所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091633489.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午4.33.50" /></p>
+<p>kind=0是选项表结束选项。</p>
+<p>kind=1是空操作(nop)选项，没有特殊含义，一般用于将TCP选项的总长度填充为4字节的整数倍。</p>
+<p>kind=2是最大报文段长度选项。TCP连接初始化时，通信双方使用 该选项来协商最大报文段长度(Max Segment Size，MSS)。TCP模块 通常将MSS设置为(MTU-40)字节(减掉的这40字节包括20字节的 TCP头部和20字节的IP头部)。这样携带TCP报文段的IP数据报的长度就不会超过MTU(假设TCP头部和IP头部都不包含选项字段，并且这也是一般情况)，从而避免本机发生IP分片。对以太网而言，MSS值是1460(1500-40)字节。</p>
+<p>kind=3是窗口扩大因子选项。TCP连接初始化时，通信双方使用该选项来协商接收通告窗口的扩大因子。在TCP的头部中，接收通告窗口 大小是用16位表示的，故最大为65535字节，但实际上TCP模块允许的接收通告窗口大小远不止这个数(为了提高TCP通信的吞吐量)。窗口扩大因子解决了这个问题。假设TCP头部中的接收通告窗口大小是N， 窗口扩大因子(移位数)是M，那么TCP报文段的实际接收通告窗口大小是N乘2M，或者说N左移M位。注意，M的取值范围是0~14。我们可以通过修改/proc/sys/net/ipv4/tcp_window_scaling内核变量来启用或关闭窗口扩大因子选项。</p>
+<p>和MSS选项一样，窗口扩大因子选项只能出现在同步报文段中， 否则将被忽略。但同步报文段本身不执行窗口扩大操作，即同步报文段头部的接收通告窗口大小就是该TCP报文段的实际接收通告窗口大小。当连接建立好之后，每个数据传输方向的窗口扩大因子就固定不变了。关于窗口扩大因子选项的细节，可参考标准文档RFC 1323。</p>
+<p>kind=4是选择性确认(Selective Acknowledgment，SACK)选项。 TCP通信时，如果某个TCP报文段丢失，则TCP模块会重传最后被确认 的TCP报文段后续的所有报文段，这样<u>原先已经正确传输的TCP报文段也可能重复发送，从而降低了TCP性能</u>。SACK技术正是为改善这种情况而产生的，它使TCP模块只重新发送丢失的TCP报文段，不用发送所有未被确认的TCP报文段。选择性确认选项用在连接初始化时，表示是否支持SACK技术。我们可以通过修改/proc/sys/net/ipv4/tcp_sack内核变量来启用或关闭选择性确认选项。</p>
+<p>kind=5是SACK实际工作的选项。该选项的参数告诉发送方本端已经收到并缓存的不连续的数据块，从而让发送端可以据此检查并重发丢失的数据块。每个块边沿(edge of block)参数包含一个4字节的序号。其中块左边沿表示不连续块的第一个数据的序号，而块右边沿则表示不连续块的最后一个数据的序号的下一个序号。这样一对参数(块左边沿和块右边沿)之间的数据是没有收到的。因为一个块信息占用8字节，所以TCP头部选项中实际上最多可以包含4个这样的不连续数据块(考虑选项类型和长度占用的2字节)。</p>
+<p>kind=8是时间戳选项。该选项提供了较为准确的计算通信双方之间的回路时间(Round Trip Time，RTT)的方法，从而为TCP流量控制提供重要信息。我们可以通过修改/proc/sys/net/ipv4/tcp_timestamps内核变量来启用或关闭时间戳选项。</p>
+<h3 id="323-使用tcpdump观察tcp头部信息"><a class="markdownIt-Anchor" href="#323-使用tcpdump观察tcp头部信息"></a> 3.2.3 使用tcpdump观察TCP头部信息</h3>
+<p>在2.3节中，我们利用tcpdump抓取了一个数据包并分析了其中的IP头部信息，本节分析其中与TCP协议相关的部分(后面的分析中，我们 将所有<u>tcpdump抓取到的数据包都称为TCP报文段</u>，因为TCP报文段既是数据包的主要内容，也是我们主要讨论的对象)。为了方便阅读， 先将该TCP报文段的内容复制于代码清单3-1中。</p>
+<p>代码清单3-1 用tcpdump抓取数据包</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">IP <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-number">.41621</span>&gt;<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-number">.23</span>:Flags[S],seq <span class="hljs-number">3499745539</span>,win <span class="hljs-number">32792</span>,options[mss <span class="hljs-number">16396</span>,sackOK,TS val <span class="hljs-number">40781017</span> ecr <span class="hljs-number">0</span>,nop,wscale <span class="hljs-number">6</span>],length <span class="hljs-number">0</span><br><span class="hljs-number">0x0000</span>:<span class="hljs-number">4510</span> <span class="hljs-number">003</span>c a5da <span class="hljs-number">4000</span> <span class="hljs-number">4006</span> <span class="hljs-number">96</span>cf <span class="hljs-number">7f</span>00 <span class="hljs-number">0001</span><br><span class="hljs-number">0x0010</span>:<span class="hljs-number">7f</span>00 <span class="hljs-number">0001</span> a295 <span class="hljs-number">0017</span> d099 e103 <span class="hljs-number">0000</span> <span class="hljs-number">0000</span><br><span class="hljs-number">0x0020</span>:a002 <span class="hljs-number">8018</span> fe30 <span class="hljs-number">0000</span> <span class="hljs-number">0204</span> <span class="hljs-number">400</span>c <span class="hljs-number">0402</span> <span class="hljs-number">080</span>a<br><span class="hljs-number">0x0030</span>:<span class="hljs-number">026</span>e <span class="hljs-number">44</span>d9 <span class="hljs-number">0000</span> <span class="hljs-number">0000</span> <span class="hljs-number">0103</span> <span class="hljs-number">0306</span><br></code></pre></td></tr></table></figure>
+<p><strong>tcpdump输出Flags[S]</strong>，表示该TCP报文段包含SYN标志，因此它是一个<strong>同步报文段</strong>。如果TCP报文段包含其他标志，则tcpdump也会将该<strong>标志的首字母</strong>显示在“Flags”后的方括号中。</p>
+<p><strong>seq是序号值</strong>。因为该同步报文段是从127.0.0.1.41621(客户端IP地址和端口号)到127.0.0.1.23(服务器IP地址和端口号)这个传输方向上的第一个TCP报文段，所以这个序号值也就是此次通信过程中该传输方向的<strong>ISN值</strong>。并且，因为这是整个通信过程中的第一个TCP报文段， 所以它没有针对对方发送来的TCP报文段的确认值(尚未收到任何对方发送来的TCP报文段)。</p>
+<p><strong>win是接收通告窗口的大小</strong>。因为这是一个同步报文段，所以win值反映的是实际的接收通告窗口大小。</p>
+<p><strong>options是TCP选项</strong>，其具体内容列在方括号中。<strong>mss</strong>是发送端(客户端)通告的最大报文段长度。通过ifconfig命令查看回路接口的MTU为16436字节，因此可以预想到TCP报文段的MSS为16396(16436-40) 字节。<strong>sackOK</strong>表示发送端支持并同意使用SACK选项。<strong>TS val</strong>是发送端的时间戳。<strong>ecr</strong>是时间戳回显应答。因为这是一次TCP通信的第一个 TCP报文段，所以它针对对方的时间戳的应答为0(尚未收到对方的时 间戳)。紧接着的<strong>nop</strong>是一个空操作选项。<strong>wscale</strong>指出发送端使用的窗口扩大因子为6。</p>
+<p>接下来我们分析tcpdump输出的字节码中TCP头部对应的信息，它从第21字节开始，如表3-1所示。第一列的16进制没用，就是代表行号。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091654334.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午4.54.28" /></p>
+<p>从表3-1中可见，TCP报文段头部的二进制码和tcpdump输出的TCP报文段描述信息完全对应。在后面的tcpdump输出中，我们将省略大部 分TCP头部信息，仅显示序号、确认号、窗口大小以及标志位等与主题相关的字段。</p>
+<h2 id="33-tcp连接的建立和关闭"><a class="markdownIt-Anchor" href="#33-tcp连接的建立和关闭"></a> 3.3 TCP连接的建立和关闭</h2>
+<p>本节我们讨论建立和关闭TCP连接的过程。</p>
+<h3 id="331-使用tcpdump观察tcp连接的建立和关闭"><a class="markdownIt-Anchor" href="#331-使用tcpdump观察tcp连接的建立和关闭"></a> 3.3.1 使用tcpdump观察TCP连接的建立和关闭</h3>
+<p>首先从ernest-laptop上<u>执行telnet命令登录Kongming20的80端口</u>，然后抓取这一过程中<u>客户端和服务器交换的TCP报文段</u>。具体操作过程如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++">$sudo tcpdump -i eth0 -nt<span class="hljs-number">&#x27;</span>(src <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span> <span class="hljs-keyword">and</span> dst <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.108</span>)<span class="hljs-built_in"><span class="hljs-keyword">or</span></span>(src <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.108</span> <span class="hljs-keyword">and</span> dst <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span>)&#x27;<br>$telnet <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span> <span class="hljs-number">80</span> Trying <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span>... Connected to <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span>. Escape character is<span class="hljs-number">&#x27;</span>^]<span class="hljs-string">&#x27;. ^](回车)#输入ctrl+]并回车 telnet&gt;quit(回车) Connection closed.</span><br></code></pre></td></tr></table></figure>
+<p>当执行telnet命令并在两台通信主机之间建立TCP连接后(telnet输出“Connected to 192.168.1.109”)，输入Ctrl+]以调出telnet程序的命令提 示符，然后在telnet命令提示符后输入quit以退出telnet客户端程序，从而结束TCP连接。整个过程中(从连接建立到结束)，tcpdump输出的 内容如代码清单3-2所示。</p>
+<p><strong>代码清单3-2 建立和关闭TCP连接的过程</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-number">1.</span>IP <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.108</span><span class="hljs-number">.60871</span>&gt;<span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span><span class="hljs-number">.80</span>:Flags[S],seq <span class="hljs-number">535734930</span>,win <span class="hljs-number">5840</span>,length <span class="hljs-number">0</span><br><span class="hljs-number">2.</span>IP <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span><span class="hljs-number">.80</span>&gt;<span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.108</span><span class="hljs-number">.60871</span>:Flags[S.],seq <span class="hljs-number">2159701207</span>,ack <span class="hljs-number">535734931</span>,win <span class="hljs-number">5792</span>,length <span class="hljs-number">0</span><br><span class="hljs-number">3.</span>IP <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.108</span><span class="hljs-number">.60871</span>&gt;<span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span><span class="hljs-number">.80</span>:Flags[.],ack <span class="hljs-number">1</span>,win <span class="hljs-number">92</span>,length <span class="hljs-number">0</span><br><span class="hljs-number">4.</span>IP <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.108</span><span class="hljs-number">.60871</span>&gt;<span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span><span class="hljs-number">.80</span>:Flags[F.],seq <span class="hljs-number">1</span>,ack <span class="hljs-number">1</span>,win <span class="hljs-number">92</span>,length <span class="hljs-number">0</span><br><span class="hljs-number">5.</span>IP <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span><span class="hljs-number">.80</span>&gt;<span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.108</span><span class="hljs-number">.60871</span>:Flags[.],ack <span class="hljs-number">2</span>,win <span class="hljs-number">91</span>,length <span class="hljs-number">0</span><br><span class="hljs-number">6.</span>IP <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span><span class="hljs-number">.80</span>&gt;<span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.108</span><span class="hljs-number">.60871</span>:Flags[F.],seq <span class="hljs-number">1</span>,ack <span class="hljs-number">2</span>,win <span class="hljs-number">91</span>,length <span class="hljs-number">0</span><br><span class="hljs-number">7.</span>IP <span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.108</span><span class="hljs-number">.60871</span>&gt;<span class="hljs-number">192.168</span><span class="hljs-number">.1</span><span class="hljs-number">.109</span><span class="hljs-number">.80</span>:Flags[.],ack <span class="hljs-number">2</span>,win <span class="hljs-number">92</span>,length <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<p>因为整个过程并<strong>没有发生应用层数据的交换</strong>，所以TCP报文段的数据部分的<strong>长度(length)总是0</strong>。为了更清楚地表示建立和关闭TCP连接 的整个过程，我们将tcpdump输出的内容绘制成图3-6所示的时序图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091740284.png" srcset="/img/loading.gif" lazyload alt="" /></p>
+<h4 id="tcp三次握手tcp连接"><a class="markdownIt-Anchor" href="#tcp三次握手tcp连接"></a> TCP三次握手（TCP连接）</h4>
+<p><strong>第1个TCP报文段</strong>包含SYN标志，因此它是一个<u>同步报文段</u>，即ernest-laptop(客户端)向Kongming20(服务器)发起连接请求。同时，该同步报文段包含一个ISN值为535734930的序号。</p>
+<p><strong>第2个TCP报文段</strong>也是<u>同步报文段</u>，表示Kongming20同意与ernest-laptop建立连接。同时它发送自己的ISN值为2159701207的序号，并<u>对第1个同步报文段进行确认</u>。确认值是535734931，即第1个同步报文段的序号值加1。</p>
+<p>前文说过，序号值是<u>用来标识TCP数据流中的每一字节</u>的。但<u>同步报文段比较特殊</u>，即使它并没有携带任何应用程序数据，它也要占用一个序号值。</p>
+<p><strong>第3个TCP报文段</strong>是ernest-laptop对第2个同步报文段的确认。至此，TCP连接就建立起来了。建立TCP连接的这3个步骤被称为<strong>TCP三次握手。</strong></p>
+<p>从第3个TCP报文段开始，tcpdump输出的序号值和确认值都是<u>相对初始ISN值的偏移</u>。当然，我们可以开启tcpdump的-S选项来选择打印 序号的绝对值。</p>
+<h4 id="tcp四次握手tcp断开连接"><a class="markdownIt-Anchor" href="#tcp四次握手tcp断开连接"></a> TCP四次握手（TCP断开连接）</h4>
+<p>后面4个TCP报文段是关闭连接的过程。</p>
+<p><strong>第4个TCP报文段</strong>包含FIN标志，因此它是一个结束报文段，即ernest-laptop要求关闭连接。结束报文段和同步报文段一样，也要占用一个序号值。</p>
+<p><strong>Kongming20用TCP报文段5</strong>来确认该结束报文段。紧接着Kongming20发送自己的结束报文段6，ernest-laptop则用TCP报文段7给予确认。实际上，仅用于确认目的的确认报文段5是<u>可以省略</u>的，因为<strong>结束报文段6也携带了该确认信息</strong>。确认报文段5是否出现在连接断开的过程中，取决于TCP的延迟确认特性。延迟确认将在后面讨论。</p>
+<p>在连接的关闭过程中，因为ernest-laptop先发送结束报文段(telnet 客户端程序主动退出)，故称<strong>ernest-laptop执行主动关闭</strong>，而称 <strong>Kongming20执行被动关闭</strong>。</p>
+<p>一般而言，TCP连接是由客户端发起，并通过三次握手建立(特殊情况是所谓同时打开[1])的。TCP连接的关闭过程相对复杂一些。可能是客户端执行主动关闭，比如前面的例子;也可能是服务器执行主动关闭，比如服务器程序被中断而强制关闭连接;还可能是同时关闭(和同时打开一样，非常少见)。</p>
+<h3 id="332-半关闭状态"><a class="markdownIt-Anchor" href="#332-半关闭状态"></a> 3.3.2 半关闭状态</h3>
+<p>TCP连接是<strong>全双工</strong>的，所以<strong>它允许两个方向的数据传输被独立关闭</strong>。换言之，通信的一端可以发送结束报文段给对方，告诉它本端已经完成了数据的发送，但允许继续接收来自对方的数据，直到对方也发送结束报文段以关闭连接。TCP连接的这种状态称为<strong>半关闭(half close)状态</strong>，如图3-7所示。（一方结束了，等待另一方也结束的状态叫半关闭）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091833324.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午6.33.29" /></p>
+<p>请注意，在图3-7中，服务器和客户端应用程序判断对方<u>是否已经关闭连接</u>的方法是:<u>read系统调用返回0</u>(收到结束报文段)。当然， Linux还提供其他检测连接是否被对方关闭的方法，这将在后续章节讨论。</p>
+<p>socket网络编程接口通过shutdown函数提供了对半关闭的支持，我们将在后续章节讨论它。这里强调一下，虽然我们介绍了<strong>半关闭状态</strong>，但是使用半关闭的应用程序很少见。</p>
 
             </div>
             <hr>
