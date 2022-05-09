@@ -45,8 +45,10 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091501261.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091506319.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091514830.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091554080.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091554401.png">
 <meta property="article:published_time" content="2022-05-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-09T07:17:56.858Z">
+<meta property="article:modified_time" content="2022-05-09T07:58:52.534Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205071505040.png">
@@ -222,7 +224,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      23k 字
+      25k 字
     </span>
   
 
@@ -231,7 +233,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      71 分钟
+      77 分钟
     </span>
   
 
@@ -622,6 +624,29 @@
 <p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091514830.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午3.14.02" /></p>
 <p><strong>注意</strong> <u>IPv6协议并不是IPv4协议的简单扩展</u>，而是完全<strong>独立</strong>的协议。用以太网帧封装的IPv6数据报和IPv4数据报具有不同的类型值。</p>
 <p>第1章提到，<strong>IPv4数据报</strong>的以太网帧封装类型值是0x800，而<strong>IPv6数据报</strong>的以太网帧封装类型值是0x86dd(见RFC 2464)。</p>
+<h1 id="第3章-tcp协议详解"><a class="markdownIt-Anchor" href="#第3章-tcp协议详解"></a> 第3章 TCP协议详解</h1>
+<p>TCP协议是TCP/IP协议族中另一个重要的协议。和IP协议相比， TCP协议<u>更靠近应用层</u>，因此在应用程序中具有<strong>更强的可操作性</strong>。一些 重要的socket选项都和TCP协议相关。</p>
+<p>本章从如下四方面来讨论TCP协议:</p>
+<p><strong>TCP头部信息</strong>:TCP头部信息出现在每个TCP报文段中，用于指定通信的源端端口号、目的端端口号，管理TCP连接，控制两个方向的数据流。</p>
+<p><strong>TCP状态转移过程</strong>:TCP连接的任意一端都是一个状态机。在 TCP连接从建立到断开的整个过程中，连接两端的状态机将经历不同的状态变迁。理解TCP状态转移对于调试网络应用程序将有很大的帮助。</p>
+<p><strong>TCP数据流</strong>:通过分析TCP数据流，我们就可以从网络应用程序外部来了解应用层协议和通信双方交换的应用程序数据。这一部分将讨论两种类型的TCP数据流:<u>交互数据流</u>和<u>成块数据流</u>。TCP数据流中有一种特殊的数据，称为<u>紧急数据</u>，我们也将简单讨论之。</p>
+<p><strong>TCP数据流的控制</strong>:为了保证可靠传输和提高网络通信质量，内核需要对TCP数据流进行控制。这一部分讨论TCP数据流控制的两个方面:<u>超时重传</u>和<u>拥塞控制</u>。</p>
+<p>不过在详细讨论TCP协议之前，我们先简单介绍一下TCP服务的特点，以及它和UDP服务的区别。</p>
+<h2 id="31-tcp服务的特点"><a class="markdownIt-Anchor" href="#31-tcp服务的特点"></a> 3.1 TCP服务的特点</h2>
+<p><strong>传输层协议</strong>主要有两个:<strong>TCP协议</strong>和<strong>UDP协议</strong>。TCP协议相对于UDP协议的特点是:面向连接、字节流和可靠传输。</p>
+<p>使用TCP协议通信的双方必须<u>先建立连接</u>，然后才能开始数据的读写。双方都必须为该<u>连接分配必要的内核</u>资源，以管理连接的状态和连接上数据的传输。TCP连接是<strong>全双工</strong>的，即<u>双方的数据读写可以通过一个连接进行</u>。完成数据交换之后，通信双方都<u>必须断开</u>连接以释放 系统资源。</p>
+<p>TCP协议的这种连接是<strong>一对一</strong>的，所以基于<strong>广播</strong>和<strong>多播</strong>(目标是多个主机地址)的应用程序<strong>不能使用</strong>TCP服务。而无连接协议<u>UDP则非常适合于广播和多播</u>。</p>
+<p>我们在1.1节中简单介绍过<strong>字节流服务</strong>和<strong>数据报服务</strong>的区别。这种区别对应到实际编程中，则体现为通信双方<u>是否必须执行相同次数的 读、写操作</u>(当然，这只是表现形式)。</p>
+<p>当发送端应用程序连续执行多次写操作时，TCP模块先将这些数据放入<strong>TCP发送缓冲区</strong>中。当TCP模块<strong>真正开始发送</strong>数据时，发送缓冲区中这些等待发送的数据可能被<strong>封装成一个或多个TCP报文</strong>段发出。因此，TCP模块发送出的<u>TCP报文段的个数和应用程序执行的写操作次数之间没有固定的数量关系</u>。(因为是两个阶段的)</p>
+<p>当接收端收到一个或多个TCP报文段后，TCP模块将它们携带的应用程序数据<u>按照TCP报文段的序号</u>(见后文)依次放入TCP接收缓冲区 中，并<u>通知应用程序读取</u>数据。接收端应用程序可以一次性将TCP接收缓冲区中的数据<u>全部读出，也可以分多次读取</u>，这取决于用户指定的应用程序读缓冲区的大小。因此，应用程序执行的读操作次数和TCP模块接收到的TCP报文段个数之间也没有固定的数量关系。（跟上面一样也是有缓冲区，所以是两个阶段）</p>
+<p>综上所述，<strong>发送端执行的写操作次数和接收端执行的读操作次数之间没有任何数量关系</strong>，这就是<strong>字节流</strong>的概念:应用程序对数据的发送和接收是没有边界限制的。UDP则不然。发送端应用程序每执行一次写操作，UDP模块就将其封装成一个UDP数据报并发送之。接收端必须及时针对每一个UDP数据报执行读操作(通过recvfrom系统调用)，否则就会丢包(这经常发生在较慢的服务器上)。并且，如果用户没有指定足够的应用程序缓冲区来读取UDP数据，则UDP数据将被截断。（UDP属于是一一对应的发送）</p>
+<p>图3-1和图3-2显示了TCP字节流服务和UDP数据报服务的上述区别。两图中省略了传输层以下的通信细节。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091554080.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午3.54.17" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205091554401.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-09 下午3.54.30" /></p>
+<p>TCP传输是<strong>可靠的</strong>。</p>
+<p>1、TCP协议采用发送应答机制，即发送端发送的每个TCP报文段都必须得到接收方的应答，才认为这个TCP报文段传输成功。</p>
+<p>2、TCP协议采用超时重传机制，发送端在发送出一个 TCP报文段之后启动定时器，如果在定时时间内未收到应答，它将重发该报文段。3、因为TCP报文段最终是以IP数据报发送的，而IP数据报到达接收端<strong>可能乱序、重复</strong>，所以TCP协议还会对接收到的TCP报文段<strong>重排、整理，再交付</strong>给应用层。</p>
+<p><u>UDP协议则和IP协议一样，提供不可靠服务</u>。它们都需要上层协 议来处理数据确认和超时重传。</p>
 
             </div>
             <hr>
