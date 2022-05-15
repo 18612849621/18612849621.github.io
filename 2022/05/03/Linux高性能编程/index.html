@@ -56,8 +56,15 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205092023605.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205121608151.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205131634108.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142122368.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142127783.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142147580.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142150680.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142153207.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142156591.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142201066.png">
 <meta property="article:published_time" content="2022-05-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-13T08:56:10.228Z">
+<meta property="article:modified_time" content="2022-05-15T02:14:39.971Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205071505040.png">
@@ -233,7 +240,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      50k 字
+      53k 字
     </span>
   
 
@@ -242,7 +249,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      155 分钟
+      165 分钟
     </span>
   
 
@@ -855,6 +862,51 @@
 <p>在5次重传均失败的情况下，底层的IP和ARP开始接管，直到telnet客户端放弃连接为止。</p>
 <p>Linux有两个重要的内核参数与TCP超时重传相关:/proc/sys/net/ipv4/tcp_retries1和/proc/sys/net/ipv4/tcp_retries2。前者指定在底层IP接管之前TCP最少执行的重传次数，默认值是3。后者指定连接放弃前TCP最多可以执行的重传次数，默认值是15(一般对应 13~30 min)。在我们的实例中，TCP超时重传发生了5次，连接坚持的时间是15 min(可以用date命令来测量)。</p>
 <p>虽然超时会导致TCP报文段重传，但TCP报文段的重传可以发生在超时之前，即快速重传，这将在下一节中讨论。</p>
+<h2 id="310-拥塞控制"><a class="markdownIt-Anchor" href="#310-拥塞控制"></a> 3.10 拥塞控制</h2>
+<h3 id="3101-拥塞控制概述"><a class="markdownIt-Anchor" href="#3101-拥塞控制概述"></a> 3.10.1 拥塞控制概述</h3>
+<p>TCP模块还有一个重要的任务，就是<u>提高网络利用率，降低丢包率</u>，并<u>保证网络资源对每条数据流的公平性</u>。这就是所谓的<strong>拥塞控制</strong>。</p>
+<p>TCP拥塞控制的标准文档是RFC 5681，其中详细介绍了拥塞控制的四个部分:<strong>慢启动(slow start)</strong>、<strong>拥塞避免(congestion avoidance)</strong>、<strong>快速重传(fast retransmit)<strong>和</strong>快速恢复(fast recovery)</strong>。拥塞控制算法在Linux下有多种实现，比如<strong>reno算法</strong>、 <strong>vegas算法</strong>和<strong>cubic算法</strong>等。它们或者部分或者全部实现了上述四个部分。/proc/sys/net/ipv4/tcp_congestion_control文件指示机器当前所使用的拥塞控制算法。</p>
+<p>拥塞控制的最终受控变量是发送端向网络一次连续写入(收到其中第一个数据的确认之前)的数据量，我们称为SWND(Send Window，发送窗口[1])。不过，发送端最终以TCP报文段来发送数据，所以SWND限定了发送端能连续发送的TCP报文段数量。这些**TCP报文段的最大长度(仅指数据部分)**称为SMSS(Sender Maximum Segment Size，发送者最大段大小)，其值一般等于MSS。</p>
+<p>发送端需要合理地选择SWND的大小。如果<strong>SWND太小</strong>，会引起明显的<strong>网络延迟</strong>;反之，如果<strong>SWND太大</strong>，则容易导致<strong>网络拥塞</strong>。前文提到，接收方可通过其接收通告窗口(RWND)来控制发送端的SWND。但这显然不够，所以发送端引入了一个称为拥塞窗口(Congestion Window，CWND)的状态变量。实际的SWND值是RWND和CWND中的较小者。图3-11显示了拥塞控制的输入和输出(可见，它是一个闭环反馈控制)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142122368.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-14 下午9.22.16" /></p>
+<h3 id="3102-慢启动和拥塞避免"><a class="markdownIt-Anchor" href="#3102-慢启动和拥塞避免"></a> 3.10.2 慢启动和拥塞避免</h3>
+<p>TCP连接建立好之后，CWND将被设置成初始值IW(Initial Window)，其大小为2~4个SMSS。但新的Linux内核提高了该初始值，以减小传输滞后。此时发送端最多能发送IW字节的数据。此后发送端每收到接收端的一个确认，其CWND就按照式(3-1)增加:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142127783.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-14 下午9.27.56" /></p>
+<p>其中N是此次确认中包含的之前未被确认的字节数。这样一来， CWND将按照指数形式扩大，这就是所谓的慢启动。慢启动算法的理由是，TCP模块刚开始发送数据时并不知道网络的实际情况，需要用一种<u>试探的方式</u>平滑地增加CWND的大小。</p>
+<p>但是如果不施加其他手段，慢启动必然使得CWND很快膨胀(可见慢启动其实不慢)并最终导致网络拥塞。因此TCP拥塞控制中定义了另一个重要的状态变量:慢启动门限(slow start threshold size， ssthresh)。当CWND的大小超过该值时，TCP拥塞控制将进入拥塞避免阶段。</p>
+<p>拥塞避免算法使得CWND按照线性方式增加，从而减缓其扩大。 RFC 5681中提到了如下两种实现方式:</p>
+<p>1、每个RTT时间内按照式(3-1)计算新的CWND，而不论该RTT时间内发送端收到多少个确认。</p>
+<p>2、每收到一个对新数据的确认报文段，就按照式(3-2)来更新CWND。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142147580.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-14 下午9.47.31" /></p>
+<p>图3-12粗略地描述了慢启动和拥塞避免发生的时机和区别。该图中，我们以SMSS为单位来显示CWND(实际上它是以字节为单位的)，以次数为单位来显示RTT，这只是为了方便讨论问题。此外，我们假设当前的ssthresh是16SMSS大小(当然，实际的ssthresh显然远不止这么大)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142150680.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-14 下午9.50.06" /></p>
+<p>以上我们讨论了发送端在未检测到拥塞时所采用的积极避免拥塞的方法。接下来介绍拥塞发生时(可能发生在慢启动阶段或者拥塞避免阶段)拥塞控制的行为。不过我们先要搞清楚发送端是如何判断拥塞已经发生的。发送端<strong>判断拥塞发生</strong>的依据有如下两个:</p>
+<p>1、传输超时，或者说TCP重传定时器溢出。</p>
+<p>2、接收到重复的确认报文段。</p>
+<p>拥塞控制对这两种情况有不同的处理方式。对第一种情况仍然使用慢启动和拥塞避免。对第二种情况则使用快速重传和快速恢复(如果是真的发生拥塞的话)，这种情况将在后面讨论。注意，第二种情况如果发生在重传定时器溢出之后，则也被拥塞控制当成第一种情况来对待。</p>
+<p>如果发送端检测到拥塞发生是由于传输超时，即上述第一种情况，那么它将执行重传并做如下调整:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142153207.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-14 下午9.53.26" /></p>
+<p>其中FlightSize是<strong>已经发送但未收到确认的字节数</strong>。这样调整之后，CWMD将小于SMSS，那么也必然小于新的慢启动门限值ssthresh(因为根据式(3-3)，它一定不小于SMSS的2倍)，故而拥塞控制再次进入慢启动阶段。</p>
+<h3 id="3103-快速重传和快速恢复"><a class="markdownIt-Anchor" href="#3103-快速重传和快速恢复"></a> 3.10.3 快速重传和快速恢复</h3>
+<p>在很多情况下，发送端都可能接收到重复的确认报文段，比如TCP报文段丢失，或者接收端收到乱序TCP报文段并重排之等。拥塞控制算 法需要判断当收到重复的确认报文段时，网络是否真的发生了拥塞，或者说TCP报文段是否真的丢失了。具体做法是:发送端如果连续收到 3个重复的确认报文段，就认为是拥塞发生了。然后它启用快速重传和快速恢复算法来处理拥塞，过程如下:</p>
+<p>1)当收到第3个重复的确认报文段时，按照式(3-3)计算ssthresh，然后立即重传丢失的报文段，并按照式(3-4)设置CWND。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142156591.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-14 下午9.56.04" /></p>
+<p>2)每次收到1个重复的确认时，设置CWND=CWND+SMSS。此时发送端可以发送新的TCP报文段(如果新的CWND允许的话)。【扩大窗口，快速重传】</p>
+<p>3)当收到新数据的确认时，设置CWND=ssthresh(ssthresh是新的慢启动门限值，由第一步计算得到)。【如果能收到说明没问题，重新确定阈值，快速恢复】</p>
+<p>快速重传和快速恢复完成之后，拥塞控制将<u>恢复到拥塞避免阶段</u>，这一点由第3步操作可得知。</p>
+<h1 id="第4章-tcpip通信案例访问internet上的web服务器"><a class="markdownIt-Anchor" href="#第4章-tcpip通信案例访问internet上的web服务器"></a> 第4章 TCP/IP通信案例:访问Internet上的Web服务器</h1>
+<p>在第1章中，我们简单地讨论了TCP/IP协议族各层的功能和部分协议，以及它们之间是如何协作完成网络通信的。在第2章和第3章中， 我们详细地探讨了IP协议和TCP协议。本章，我们分析一个完整的 TCP/IP通信的实例——访问Internet上的Web服务器，通过该实例把这些知识串联起来。选择使用Web服务器展开讨论的理由是:</p>
+<p>1、Internet上的Web服务器随处都可以获得，我们通过浏览器访问任何一个网站都是在与Web服务器通信。</p>
+<p>2、本书后续章节将编写简单的Web服务器程序，因此先学习其工作原理是有好处的。</p>
+<p>Web客户端和服务器之间使用<strong>HTTP协议通信</strong>。HTTP协议的内容相当广泛，涵盖了网络应用层协议需要考虑的诸多方面。因此，学习 HTTP协议对应用层协议设计将大有裨益。</p>
+<h2 id="41-实例总图"><a class="markdownIt-Anchor" href="#41-实例总图"></a> 4.1 实例总图</h2>
+<p>我们按照如下方法来部署通信实例:在Kongming20上运行wget客户端程序，在ernest-laptop上运行squid代理服务器程序。客户端通过代 理服务器的中转，获取Internet上的主机www.baidu.com的首页文档 index.html，如图4-1所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142201066.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-14 下午10.01.32" /></p>
+<p>由图4-1可见，wget客户端程序和代理服务器之间，以及代理服务器与Web服务器之间都是使用HTTP协议通信的。HTTP协议是一种应用 层协议，它默认使用的传输层协议是TCP协议。我们将在后文中简单讨论HTTP协议。</p>
+<p>为了将ernest-laptop设置为Kongming20的<strong>HTTP代理服务器</strong>，我们需要在Kongming20上设置环境变量http_proxy:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">$<span class="hljs-keyword">export</span> http_proxy=<span class="hljs-string">&quot;ernest-laptop:3128&quot;</span>#在Kongming20上执行<br></code></pre></td></tr></table></figure>
+<p>其中，3128是squid服务器默认使用的端口号(可以通过lsof命令查看服务器程序监听的端口号，见第17章)。设置好环境变量之后， Kongming20访问任何Internet上的Web服务器时，其HTTP请求都将首先发送至ernest-laptop的3128端口。</p>
+<p>squid代理服务器接收到wget客户端的HTTP请求之后，将简单地修改这个请求，然后把它发送给最终的目标Web服务器。既然代理服务器 访问的是Internet上的机器，可以预见它发送的IP数据报都将经过路由器的中转，这一点也体现在图4-1中了。</p>
 
             </div>
             <hr>
