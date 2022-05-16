@@ -64,7 +64,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142156591.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205142201066.png">
 <meta property="article:published_time" content="2022-05-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-15T02:14:39.971Z">
+<meta property="article:modified_time" content="2022-05-15T13:21:48.136Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205071505040.png">
@@ -249,7 +249,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      165 分钟
+      166 分钟
     </span>
   
 
@@ -907,6 +907,10 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">$<span class="hljs-keyword">export</span> http_proxy=<span class="hljs-string">&quot;ernest-laptop:3128&quot;</span>#在Kongming20上执行<br></code></pre></td></tr></table></figure>
 <p>其中，3128是squid服务器默认使用的端口号(可以通过lsof命令查看服务器程序监听的端口号，见第17章)。设置好环境变量之后， Kongming20访问任何Internet上的Web服务器时，其HTTP请求都将首先发送至ernest-laptop的3128端口。</p>
 <p>squid代理服务器接收到wget客户端的HTTP请求之后，将简单地修改这个请求，然后把它发送给最终的目标Web服务器。既然代理服务器 访问的是Internet上的机器，可以预见它发送的IP数据报都将经过路由器的中转，这一点也体现在图4-1中了。</p>
+<h2 id="42-部署代理服务器"><a class="markdownIt-Anchor" href="#42-部署代理服务器"></a> 4.2 部署代理服务器</h2>
+<p>由于通信实例中使用了HTTP代理服务器(squid程序)，所以先简单介绍一下HTTP代理服务器的工作原理，以及如何部署squid代理服务 器。</p>
+<h3 id="421-http代理服务器的工作原理"><a class="markdownIt-Anchor" href="#421-http代理服务器的工作原理"></a> 4.2.1 HTTP代理服务器的工作原理</h3>
+<p>在HTTP通信链上，客户端和目标服务器之间通常存在某些中转代 理服务器，它们提供对目标资源的中转访问。一个HTTP请求可能被多 个代理服务器转发，后面的服务器称为前面服务器的上游服务器。代 理服务器按照其使用方式和作用，分为正向代理服务器、反向代理服 务器和透明代理服务器。</p>
 
             </div>
             <hr>
