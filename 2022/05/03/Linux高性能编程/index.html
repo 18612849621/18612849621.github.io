@@ -86,7 +86,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205210803060.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205210959142.png">
 <meta property="article:published_time" content="2022-05-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-21T02:04:16.617Z">
+<meta property="article:modified_time" content="2022-05-21T02:05:10.726Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205071505040.png">
@@ -1385,9 +1385,17 @@
 <p>splice函数用于在<u>两个文件描述符之间移动数据</u>，也是<strong>零拷贝操作</strong>。splice函数的定义如下:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">ssize_t</span> <span class="hljs-title">splice</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd_in,<span class="hljs-keyword">loff_t</span>* off_in,<span class="hljs-keyword">int</span> fd_out,<span class="hljs-keyword">loff_t</span>* off_out,<span class="hljs-keyword">size_t</span> len,<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> flags)</span></span>;<br></code></pre></td></tr></table></figure>
 <p><strong>fd_in参数</strong>是待输入数据的文件描述符。如果fd_in是一个管道文件描述符，那么off_in参数必须被设置为NULL。如果fd_in不是一个管道文件描述符(比如socket)，那么off_in表示从输入数据流的何处开始读取数据。此时，若off_in被设置为NULL，则表示从输入数据流的当前偏移位置读入;若off_in不为NULL，则它将指出具体的偏移位置。</p>
+<ul>
+<li>
 <p><strong>fd_out/off_out参数</strong>的含义与fd_in/off_in相同，不过用于输出数据流。</p>
+</li>
+<li>
 <p><strong>len 参数</strong>指定移动数据的长度;</p>
+</li>
+<li>
 <p><strong>flags参数</strong>则控制数据如何移动，它可以被设置为表6-2中的某些值的按位或。</p>
+</li>
+</ul>
 <p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205210800519.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-21 上午8.00.40" /></p>
 <p>使用splice函数时，fd_in和fd_out必须至少有一个是管道文件描述符【说明不是从管道到某个文件就是某个文件到管道要不就是管道和管道之间的通信】。splice函数调用成功时返回移动字节的数量。它可能返回0，表示没有数据需要移动，这发生在从管道中读取数据(fd_in是管道文件描述符)而该管道没有被写入任何数据时。splice函数失败时返回-1并设置errno。常见的errno如表6-3所示。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205210803060.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-21 上午8.02.59" /></p>
@@ -1415,7 +1423,7 @@
 <p>此外，SIGIO和SIGURG这两个信号与其他Linux信号不同，它们必须与某个文件描述符相关联方可使用:当被关联的文件描述符可读或可写时，系统将触发SIGIO信号;当被关联的文件描述符(而且必须是一个socket)上有带外数据可读时，系统将触发SIGURG信号。将信号和文件描述符关联的方法，就是使用fcntl函数为目标文件描述符指定宿主进程或进程组，那么被指定的宿主进程或进程组将捕获这两个信号。使用SIGIO时，还需要利用fcntl设置其O_ASYNC标志(异步I/O标志，不过SIGIO信号模型并非真正意义上的异步I/O模型，见第8章)。 关于信号SIGURG的更多内容，我们将在第10章讨论。</p>
 <h1 id="第7章-linux服务器程序规范"><a class="markdownIt-Anchor" href="#第7章-linux服务器程序规范"></a> 第7章 Linux服务器程序规范</h1>
 <p>除了网络通信外，服务器程序通常还必须考虑许多其他细节问题。这些细节问题涉及面广且零碎，而且基本上是模板式的，所以我们称之为服务器程序规范。比如:</p>
-<ul>
+<ol>
 <li>
 <p>Linux服务器程序一般以后台进程形式运行。后台进程又称守护 进程(daemon)。它没有控制终端，因而也不会意外接收到用户输 入。守护进程的父进程通常是init进程(PID为1的进程)。</p>
 </li>
@@ -1428,7 +1436,7 @@
 <li>
 <p>Linux服务器程序通常是可配置的。服务器程序通常能处理很多 命令行选项，如果一次运行的选项太多，则可以用配置文件来管理。 绝大多数服务器程序都有配置文件，并存放在/etc目录下。比如第4章 讨论的squid服务器的配置文件是/etc/squid3/squid.conf。</p>
 </li>
-</ul>
+</ol>
 
             </div>
             <hr>
