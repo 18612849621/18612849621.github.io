@@ -86,7 +86,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205210803060.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205210959142.png">
 <meta property="article:published_time" content="2022-05-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-21T02:02:31.070Z">
+<meta property="article:modified_time" content="2022-05-21T02:04:16.617Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205071505040.png">
@@ -271,7 +271,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      367 分钟
+      369 分钟
     </span>
   
 
@@ -1414,6 +1414,21 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">setnonblocking</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> old_option=<span class="hljs-built_in">fcntl</span>(fd,F_GETFL);<span class="hljs-comment">/*获取文件描述符旧的状态标志*/</span> <br>  <span class="hljs-keyword">int</span> new_option=old_option|O_NONBLOCK;<span class="hljs-comment">/*设置非阻塞标志*/</span> <br>  <span class="hljs-built_in">fcntl</span>(fd,F_SETFL,new_option);<br>	<span class="hljs-keyword">return</span> old_option;<span class="hljs-comment">/*返回文件描述符旧的状态标志，以便*/</span> <span class="hljs-comment">/*日后恢复该状态标志*/</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <p>此外，SIGIO和SIGURG这两个信号与其他Linux信号不同，它们必须与某个文件描述符相关联方可使用:当被关联的文件描述符可读或可写时，系统将触发SIGIO信号;当被关联的文件描述符(而且必须是一个socket)上有带外数据可读时，系统将触发SIGURG信号。将信号和文件描述符关联的方法，就是使用fcntl函数为目标文件描述符指定宿主进程或进程组，那么被指定的宿主进程或进程组将捕获这两个信号。使用SIGIO时，还需要利用fcntl设置其O_ASYNC标志(异步I/O标志，不过SIGIO信号模型并非真正意义上的异步I/O模型，见第8章)。 关于信号SIGURG的更多内容，我们将在第10章讨论。</p>
 <h1 id="第7章-linux服务器程序规范"><a class="markdownIt-Anchor" href="#第7章-linux服务器程序规范"></a> 第7章 Linux服务器程序规范</h1>
+<p>除了网络通信外，服务器程序通常还必须考虑许多其他细节问题。这些细节问题涉及面广且零碎，而且基本上是模板式的，所以我们称之为服务器程序规范。比如:</p>
+<ul>
+<li>
+<p>Linux服务器程序一般以后台进程形式运行。后台进程又称守护 进程(daemon)。它没有控制终端，因而也不会意外接收到用户输 入。守护进程的父进程通常是init进程(PID为1的进程)。</p>
+</li>
+<li>
+<p>Linux服务器程序通常有一套日志系统，它至少能输出日志到文 件，有的高级服务器还能输出日志到专门的UDP服务器。大部分后台 进程都在/var/log目录下拥有自己的日志目录。</p>
+</li>
+<li>
+<p>Linux服务器程序一般以某个专门的非root身份运行。比如 mysqld、httpd、syslogd等后台进程，分别拥有自己的运行账户mysql、 apache和syslog。</p>
+</li>
+<li>
+<p>Linux服务器程序通常是可配置的。服务器程序通常能处理很多 命令行选项，如果一次运行的选项太多，则可以用配置文件来管理。 绝大多数服务器程序都有配置文件，并存放在/etc目录下。比如第4章 讨论的squid服务器的配置文件是/etc/squid3/squid.conf。</p>
+</li>
+</ul>
 
             </div>
             <hr>
