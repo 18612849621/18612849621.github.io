@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205220740722.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205220752966.png">
 <meta property="article:published_time" content="2022-05-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-22T23:44:38.550Z">
+<meta property="article:modified_time" content="2022-05-24T15:07:57.966Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205212309892.png">
@@ -205,7 +205,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.1k 字
+      8.2k 字
     </span>
   
 
@@ -214,7 +214,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10 分钟
+      26 分钟
     </span>
   
 
@@ -291,6 +291,154 @@
 <p>这里是模板类，类运算符重载，模版的应用</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">my</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    T <span class="hljs-keyword">operator</span>+(T a) <span class="hljs-keyword">const</span>;<br><span class="hljs-keyword">private</span>:<br>    T val = <span class="hljs-number">2</span>;<br>&#125;;<br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br>T my&lt;T&gt;::<span class="hljs-keyword">operator</span>+(T a) <span class="hljs-keyword">const</span> &#123;<br>    cout &lt;&lt; <span class="hljs-string">&quot;wolaila&quot;</span> &lt;&lt; endl;<br>    <span class="hljs-keyword">return</span> a + <span class="hljs-keyword">this</span>-&gt;val;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function">T <span class="hljs-title">add</span><span class="hljs-params">(T&amp; a, T&amp; b)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> a + b;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">auto</span> m = <span class="hljs-keyword">new</span> my&lt;<span class="hljs-keyword">int</span>&gt;();<br>    <span class="hljs-keyword">auto</span> n = my&lt;<span class="hljs-keyword">int</span>&gt;();<br>    cout &lt;&lt; *m + <span class="hljs-number">1</span> &lt;&lt; endl;<br>    cout &lt;&lt; n + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">ouput:<br>wolaila<br><span class="hljs-number">3</span><br>wolaila<br><span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+<h2 id="3-c-中内存分配情况"><a class="markdownIt-Anchor" href="#3-c-中内存分配情况"></a> 3、C++ 中内存分配情况</h2>
+<ul>
+<li>
+<p>栈: 由编译器管理分配和回收，存放<strong>局部变量</strong>和<strong>函数参数</strong>。</p>
+</li>
+<li>
+<p>堆: 由程序员管理，需要手动 new malloc delete free 进行分配和回收，空间较大，但可能会出现内存泄漏和空闲碎片的情况。</p>
+</li>
+<li>
+<p>全局/静态存储区: 分为初始化和未初始化两个相邻区域，存储初始化和未初始化的<strong>全局变量</strong>和<strong>静态变量</strong>。</p>
+</li>
+<li>
+<p>常量存储区: 存储常量，一般<u>不允许修改</u>。</p>
+</li>
+<li>
+<p>代码区: 存放程序的二进制代码。</p>
+</li>
+</ul>
+<h2 id="4-c-中的指针参数传递和引用参数传递"><a class="markdownIt-Anchor" href="#4-c-中的指针参数传递和引用参数传递"></a> 4、C++ 中的指针参数传递和引用参数传递</h2>
+<p><strong>指针参数</strong>传递本质上是<strong>值传递</strong>，它所传递的是一个<strong>地址值</strong>。值传递过程中，被调函数的形式参数作为被调函数的局部变量处理，会在栈中开辟内存空间以存放由主调函数传递进来的实参值，从而形成了实参的一个副本(替身)。值传递的特点是，被调函数对形式参数的任何操作都是作为局部变量进行的，不会影响主调函数的实参变量的值(形参指针变了，实参指针不会变)【如果是*就会是实参本体】。</p>
+<p><strong>引用参数</strong>传递过程中，被调函数的形式参数也作为局部变量在栈中开辟了内存空间，但是这时存放的是由主调函数放进来的实参变量的地址。被调函数对形参(本体)的任何操作都被处理成<strong>间接寻址</strong>，即通过栈中存放的地址访问主调函数中的实参变量(根据别名找到主调函数中的本体)。因此，被调函数对形参的任何操作都会影响主调函数中的实参变量。</p>
+<p>引用传递和指针传递是不同的，虽然他们都是在被调函数栈空间上的一个局部变量，但是任何对于引用参数的处理都会通过一个间接寻址的方式操作到主调函数中的相关变量。而对于指针传递的参数，如果改变被调函数中的指针地址，它将应用不到主调函数的相关变量。如果想通过指针参数传递来改变主调函数中的相关变量(<strong>地址</strong>)，那就得使用指向指针的指针【还得用*解除引用】或者指针引用。</p>
+<p>从编译的⻆度来讲，程序在编译时分别将指针和引用添加到符号表上，符号表中记录的是变量名及变量所对应地址。指针变量在符号表上对应的地址值为指针变量的地址值【指针有自己的地址】，而引用在符号表上对应的地址值为引用对象的地址值(与实参名字不同，<strong>地址相同</strong>)。符号表<u>生成之后就不会再改</u>，因此指针可以改变其指向的对象(指针变量中的值可以改)，而引用对象则不能修改。</p>
+<h2 id="5-c-中-const-和-static-关键字定义用途"><a class="markdownIt-Anchor" href="#5-c-中-const-和-static-关键字定义用途"></a> 5、C++ 中 const 和 static 关键字(定义，用途)</h2>
+<h3 id="static-作用控制变量的存储方式和可性"><a class="markdownIt-Anchor" href="#static-作用控制变量的存储方式和可性"></a> static 作用:控制变量的存储方式和可⻅性。</h3>
+<ul>
+<li>
+<p>作用一:修饰局部变量:一般情况下，对于局部变量在程序中是存放在栈区的，并且局部的生命周期在包含语句块执行结束时便结束了。但是如果用 static 关键字修饰的话，该变量便会存放在静态数据区，其生命周期会一直延续到整个程序执行结束。但是要注意的是，虽然用 static 对局部变量进行修饰之后，其生命周期以及存储空间发生了变化，但其作用域并没有改变，作用域还是限制在其语句块。</p>
+</li>
+<li>
+<p>作用二:修饰全部变量:对于一个全局变量，它既可以在本文件中被访问到，也可以在同一个工程中其它源文件被访问(添加extern进行声明即可)。用 static 对全局变量进行修饰改变了其作用域范围，由原来的整个工程可⻅变成了本文件可⻅。</p>
+</li>
+<li>
+<p>作用三:修饰函数:用 static 修饰函数，情况和修饰全局变量类似，也是改变了函数的作用域。</p>
+</li>
+<li>
+<p>作用四:修饰类:如果 C++ 中对类中的某个函数用 static 修饰，则表示该函数属于一个类而不是属于此类的任何特定对象;如果对类中的某个变􏰁进行 static 修饰，则表示该变量以及所有的对象所有，存储空间中只存在一个副本，可以通过类和对象去调用。(补充:静态非常量数据成员，其只能在类外定义和初始化，在类内仅是声明而已。)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//调用方式</span><br>class.var <span class="hljs-keyword">or</span> class.fun<br>class::var <span class="hljs-keyword">or</span> class::fun<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>作用五:类成员**/**类函数声明 <strong>static</strong></p>
+</li>
+</ul>
+<ol>
+<li>函数体内 static 变量的作用范围为该函数体，不同于 auto 变量，该变量的内存只被分配 一次，因此其值在下次调用时仍维持上次的值;</li>
+<li>在模块内的 static 全局变量可以被模块内所用函数访问，但不能被模块外其它函数访问; 在模块内的 static 函数只可被这一模块内的其它函数调用，这个函数的使用范围被限制在 声明它的模块内;</li>
+<li>在类中的 static 成员变量属于整个类所拥有，对类的所有对象只有一份拷⻉;</li>
+<li>在类中的 static 成员函数属于整个类所拥有，这个函数<u>不接收 this 指针</u>，因而只能访问类 的 static 成员变量。</li>
+<li>static 类对象必须要在类外进行初始化，static 修饰的变量<strong>先于</strong>对象存在，所以 static 修饰的变量要在类外初始化;</li>
+<li>由于 static 修饰的类成员属于类，不属于对象，因此 static 类成员函数是没有 this 指针，this 指针是指向本对象的指针，正因为没有 this 指针，所以 static 类成员函数不能访问非 static 的类成员，只能访问 static修饰的类成员;</li>
+<li>static 成员函数不能被 virtual 修饰，static 成员不<u>属于任何对象或实例</u>，所以加上 virtual 没有任何实际意义;静态成员函数没有 this 指针，虚函数的实现是为每一个对象分配一个 vptr 指针，而 vptr 是通过 this 指针调用的，所以不能为 virtual;虚函数的调用关系，this-&gt;vptr-&gt;ctable-&gt;virtual function。</li>
+</ol>
+<h3 id="const-关键字含义及实现机制"><a class="markdownIt-Anchor" href="#const-关键字含义及实现机制"></a> const 关键字:含义及实现机制</h3>
+<ul>
+<li>
+<p><strong>const</strong> 修饰基本类型数据类型:基本数据类型，修饰符 const 可以用在类型说明符前，也可以用在类型说明符后，其结果是一样的。在使用这些常量的时候，只要不改变这些常量的值即可。</p>
+</li>
+<li>
+<p><strong>const</strong> 修饰指针变量和引用变量:如果 const 位于小星星的左侧，则 const 就是用来修饰指针所指向的变量【const type* var】，即指针指向为常量;如果 const 位于小星星的右侧【type* const var】，则 const 就是修饰指针本身，即指针本身是常量。</p>
+</li>
+<li>
+<p><strong>const</strong> 应用到函数中:作为参数的 const 修饰符:调用函数的时候，用相应的变量初始化 const 常量，则在函数体中，按照 const 所修饰的部分进行常量化，保护了原对象的属性。 [注意]:参数 const 通常用于参数为指针或引用的情况; 作为函数返回值的 const 修饰符:声明了返回值后，const 按照&quot;修饰原则&quot;进行修饰，起到相应的保护作用。</p>
+</li>
+<li>
+<p><strong>const</strong> 在类中的用法:</p>
+<ol>
+<li>const 成员变量，只在某个对象生命周期内是常量，而对于整个类而言是可以改变的。因为类可以创建多个对象，不同的对象其 const 数据成员值可以不同。所以不能在类的声明中初始化 const 数据成员，因为类的对象在没有创建时候，编译器不知道 const 数据成员的值是什么。<strong>const 数据成员的初始化只能在类的构造函数的初始化列表中进行</strong>。</li>
+<li>const 成员函数: const 成员函数的主要目的是<strong>防止成员函数修改对象</strong>的内容。要注意，const 关键字和 static 关键字对于成员函数来说是<u>不能同时使用</u>的，因为 static 关键字修饰静态成员函数不含有 this 指针，即不能实例化，const 成员函数又必须具体到某一个函数。</li>
+</ol>
+</li>
+<li>
+<p><strong>const</strong> 修饰类对象，定义常量对象:<u>常量对象只能调用常量函数</u>，别的成员函数都不能调用。</p>
+<p>补充: const 成员函数中如果实在想修改某个变量，可以使用 <strong>mutable</strong> 进行修饰。成员变量中如果想建立在整个类中都<strong>恒定</strong>的常量，应该用类中的枚举常量来实现或者 <strong>static const</strong>。</p>
+</li>
+</ul>
+<h2 id="6-c-和-c-区别-函数类structclass"><a class="markdownIt-Anchor" href="#6-c-和-c-区别-函数类structclass"></a> 6、C 和 C++ 区别 (函数/类/struct/class)</h2>
+<p>首先，C 和 C++ 在基本语句上没有过大的区别。</p>
+<ul>
+<li>
+<p>C++ 有新增的语法和关键字，语法的区别有头文件的不同和命名空间的不同，C++ 允许我们自己定义自己的空间，C 中不可以。关键字方面比如 C++ 与 C 动态管理内存的方式不同， C++ 中在 malloc 和 free 的基础上增加了 new 和 delete，而且 C++ 中在指针的基础上增加了<strong>引用</strong>的概念，关键字例如 C++中还增加了 auto，explicit 体现显示和隐式转换上的概念要求，还有 dynamic_cast 增加类型安全方面的内容。</p>
+</li>
+<li>
+<p>函数方面 <strong>C++</strong> 中有重载和虚函数的概念:C++ 支持函数重载而 C 不支持，是因为 C++ 函数的名字修饰与 C 不同，C++ 函数名字的修饰会将参数加在后面，例如，int func(int,double)经过名字修饰之后会变成_func_int_double，而 C 中则会变成 _func，所以 C++ 中会<strong>支持不同参数调用不同函数</strong>。</p>
+</li>
+<li>
+<p>C++ 还有虚函数概念，用以实现多态。</p>
+</li>
+<li>
+<p>类方面，<strong>C</strong> 的 <strong>struct</strong> 和 <strong>C++</strong> 的类也有很大不同:C++ 中的 struct 不仅可以有成员变量还可以成员函数，而且对于 struct 增加了权限访问的概念，struct 的默认成员访问权限和默认继 承权限都是 public，C++ 中除了 struct 还有 class 表示类，struct 和 class 还有一点不同在 于 class 的默认成员访问权限和默认继承权限都是 private。</p>
+</li>
+<li>
+<p><strong>C++</strong> 中增加了模板还重用代码，提供了更加强大的 <strong>STL</strong> 标准库。</p>
+</li>
+<li>
+<p>最后补充一点就是 C 是一种结构化的语言，重点在于算法和数据结构。C 程序的设计首先考虑的是如何通过一个代码，一个过程对输入进行运算处理输出。而 C++ 首先考虑的是如何构造一个对象模型，让这个模型能够契合与之对应的问题领域，这样就能通过获取对象的状态信息得到输出。</p>
+</li>
+</ul>
+<blockquote>
+<p>C 的 struct 更适合看成是一个数据结构的实现体，而 C++ 的 class 更适合看成是一个对象的实现体。</p>
+</blockquote>
+<h2 id="7-c-和-java-区别语言特性垃圾回收应用场景等"><a class="markdownIt-Anchor" href="#7-c-和-java-区别语言特性垃圾回收应用场景等"></a> 7、C++ 和 Java 区别(语言特性，垃圾回收，应用场景等)</h2>
+<ul>
+<li>
+<p>指针:Java 语言让程序员没法找到指针来直接访问内存，没有指针的概念，并有内存的自动管理功能，从而有效的防止了 C++ 语言中的指针操作失误的影响。但并非 Java 中没有指针，Java 虚拟机内部中还是用了指针，保证了 Java 程序的安全。</p>
+</li>
+<li>
+<p>多继承:C++ 支持多重继承但 Java 不支持，但<strong>支持一个类继承多个接口</strong>，实现 C++ 中多重继承的功能，又避免了 C++ 的多重继承带来的不便。</p>
+</li>
+<li>
+<p>数据类型和类:Java 是完全面向对象的语言，所有的函数和变量必须是类的一部分。除了基本数据类型之外，其余的都作为类对象，对象将数据和方法结合起来，把它们封装在类中，这样每个对象都可以实现自己的特点和行为。Java 中取消了 C++ 中的 struct 和 union 。</p>
+</li>
+<li>
+<p>自动内存管理:Java 程序中所有对象都是用 new 操作符建立在<strong>内存堆栈</strong>上，Java 自动进行无用内存回收操作，不需要程序员进行手动删除。而 C++ 中必须由程序员释放内存资源，增加了程序设计者的负担。Java 中当一个对象不再被用到时， 无用内存回收器将给他们加上标签。Java 里无用内存回收程序是以线程方式在后台运行的，利用空闲时间工作来删除。</p>
+</li>
+<li>
+<p>Java 不支持操作符重载。操作符重载被认为是 C++ 的突出特性。</p>
+</li>
+<li>
+<p>Java 不支持预处理功能。C++ 在编译过程中都有一个预编译阶段，Java 没有预处理器，但它提供了 import 与 C++ 预处理器具有类似功能。</p>
+</li>
+<li>
+<p>类型转换:C++ 中有数据类型隐含转换的机制，Java 中需要限时强制类型转换。</p>
+</li>
+<li>
+<p>字符串:C++中字符串是以 Null 终止符代表字符串的结束，而 Java 的字符串是用类对象 (string 和 stringBuffer)来实现的。</p>
+</li>
+<li>
+<p>Java 中不提供 goto 语句，虽然指定 goto 作为关键字，但不支持它的使用，使程序简洁易读。</p>
+</li>
+<li>
+<p>Java 的异常机制用于捕获例外事件，增强系统容错能力。</p>
+</li>
+</ul>
+<h2 id="8-说一下-c-里是怎么定义常量的常量存放在内存的哪个位置"><a class="markdownIt-Anchor" href="#8-说一下-c-里是怎么定义常量的常量存放在内存的哪个位置"></a> 8、说一下 C++ 里是怎么定义常量的?常量存放在内存的哪个位置?</h2>
+<ul>
+<li>对于局部常量，存放在栈区;</li>
+<li>对于全局常量，编译期一般不分配内存，放在符号表中以提高访问效率;</li>
+<li>字面值常量，比如字符串，放在常量区。</li>
+</ul>
+<h2 id="9-c-中重载和重写重定义的区别"><a class="markdownIt-Anchor" href="#9-c-中重载和重写重定义的区别"></a> 9、C++ 中重载和重写，重定义的区别</h2>
+<h3 id="重载"><a class="markdownIt-Anchor" href="#重载"></a> 重载</h3>
+<p>翻译自 overload，是指同一可访问区内被声明的几个具有不同参数列表的<strong>同名函数</strong>，依赖于 C++函数名字的修饰会将参数加在后面，可以是参数<u>类型，个数，顺序</u>的不同。根据参数列表决定调用哪个函数，重载<u>不关心函数的返回类型</u>。</p>
+<h3 id="重写"><a class="markdownIt-Anchor" href="#重写"></a> 重写</h3>
+<p>翻译自 override，派生类中重新定义父类中除了函数体【内容】外完全相同的虚函数，注意被重写的函数不能是 static 的【因为static都不用对象】，一定要是<u>虚函数</u>，且其他一定要完全相同。要注意，重写和被重写的函数<strong>是在不同</strong>的类当中的，重写函数的访问修饰符是可以不同的，尽管 virtual 中是 private 的，派生类中重写可以改为 public。</p>
+<h3 id="重定义隐藏"><a class="markdownIt-Anchor" href="#重定义隐藏"></a> 重定义(隐藏)</h3>
+<p>派生类<u>重新定义父类中相同名字的非 virtual 函数</u>，参数列表和返回类型都可以<strong>不同</strong>，即父类中除了定义成 virtual 且完全相同的同名函数才不会被派生类中的同名函数所隐藏(重定义)。</p>
+<p>详细说了重写（覆盖）和隐藏</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/magic_world_wow/article/details/82152839">https://blog.csdn.net/magic_world_wow/article/details/82152839</a></p>
 
             </div>
             <hr>
