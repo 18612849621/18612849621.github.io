@@ -28,8 +28,9 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205212320154.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205220740722.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205220752966.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205251541918.png">
 <meta property="article:published_time" content="2022-05-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-25T06:05:33.238Z">
+<meta property="article:modified_time" content="2022-05-25T08:01:42.366Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205212309892.png">
@@ -205,7 +206,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      10k 字
+      12k 字
     </span>
   
 
@@ -214,7 +215,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      32 分钟
+      38 分钟
     </span>
   
 
@@ -482,6 +483,99 @@
 <p>下面都是合法的声明，但是含义大不同:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> * p1; <span class="hljs-comment">//指向整形常量的指针，它指向的值不能修改</span><br><span class="hljs-keyword">int</span> * <span class="hljs-keyword">const</span> p2; <span class="hljs-comment">//指向整形的常量指针 ，它不能在指向别的变量，但指向(变量)的值可以修改。</span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *<span class="hljs-keyword">const</span> p3; <span class="hljs-comment">//指向整形常量的常量指针 。它既不能再指向别的常量，指向的值也不能修改。</span><br></code></pre></td></tr></table></figure>
 <p>理解这些声明的技巧在于，查看关键字const右边来确定什么被声明为常量 ，如果该关键字的右边是类型，则值是常量;如果关键字的右边是指针变量，则指针本身是常量。</p>
+<h2 id="15-简单说一下函数指针"><a class="markdownIt-Anchor" href="#15-简单说一下函数指针"></a> 15、简单说一下函数指针</h2>
+<p>从定义和用途两方面来说一下自己的理解:</p>
+<ul>
+<li>首先是定义:函数指针是指向函数的指针变量。函数指针本身首先是一个指针变量，该指针变量指向一个具体的函数。这正如用指针变量可指向整型变量、字符型、数组一样，这里是指向函数。</li>
+<li>在编译时，每一个函数都有一个入口地址，该入口地址就是函数指针所指向的地址。有了指向函数的指针变量后，可用该指针变量调用函数，就如同用指针变量可引用其他类型变量一样，在这些概念上是大体一致的。</li>
+<li>其次是用途:调用函数和做函数的参数，比如回调函数。</li>
+</ul>
+<p>示例:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">char</span> * <span class="hljs-title">fun</span><span class="hljs-params">(<span class="hljs-keyword">char</span> * p)</span> </span>&#123;...&#125; <span class="hljs-comment">// 函数fun</span><br><span class="hljs-keyword">char</span> * (*pf)(<span class="hljs-keyword">char</span> * p);	<span class="hljs-comment">// 函数指针pf</span><br>pf = fun;	<span class="hljs-comment">// 函数指针pf指向函数fun</span><br><span class="hljs-built_in">pf</span>(p);	<span class="hljs-comment">// 通过函数指针pf调用函数fun</span><br></code></pre></td></tr></table></figure>
+<p>回调函数</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/daaikuaichuan/article/details/84797234">https://blog.csdn.net/daaikuaichuan/article/details/84797234</a></p>
+<h2 id="16-堆和栈区别"><a class="markdownIt-Anchor" href="#16-堆和栈区别"></a> 16、堆和栈区别</h2>
+<h3 id="栈"><a class="markdownIt-Anchor" href="#栈"></a> 栈</h3>
+<ul>
+<li>
+<p>由编译器进行管理，在需要时由编译器自动分配空间，在不需要时候自动回收空间，一般保存的是局部变量和函数参数等。连续的内存空间，在函数调用的时候，首先入栈的主函数的下一条可执行指令的地址，然后是函数的各个参数。</p>
+</li>
+<li>
+<p>大多数编译器中，参数是从右向左入栈(原因在于采用这种顺序，是为了让程序员在使用 C/C++的“<u>函数参数⻓度可变</u>”这个特性时更方便。如果是从左向右压栈，第一个参数(即描述可变参数表各变量类型的那个参数)将被放在栈底，由于可变参的函数第一步就需要解析可变参数表的各参数类型，即第一步就需要得到上述参数，因此，将它放在栈底是很不方便的。</p>
+</li>
+<li>
+<p>本次函数调用结束时，局部变量先出栈，然后是参数，最后是栈顶指针最开始存放的地址，程序由该点继续运行，不会产生碎片。<br />
+栈是高地址向低地址扩展，栈底高地址。</p>
+</li>
+<li>
+<p>空间较小。</p>
+<p>可变参数：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37600027/article/details/86104876">https://blog.csdn.net/qq_37600027/article/details/86104876</a></p>
+</li>
+</ul>
+<h3 id="堆"><a class="markdownIt-Anchor" href="#堆"></a> 堆</h3>
+<ul>
+<li>
+<p>由程序员管理，需要手动 new malloc delete free 进行分配和回收，如果不进行回收的话，会造成<strong>内存泄漏</strong>的问题。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205251541918.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-25 下午3.41.23" /></p>
+</li>
+<li>
+<p>不连续的空间，实际上系统中有一个<strong>空闲链表</strong>，当有程序申请的时候，系统遍历空闲链表找到第一个大于等于申请大小的空间分配给程序，一般在分配程序的时候，也会空间头部写入内存大小，方便 delete 回收空间大小。</p>
+</li>
+<li>
+<p>当然如果有剩余的，也会将剩余的插入到空闲链表中，这也是产生<strong>内存碎片</strong>的原因【大块被切小块】。</p>
+</li>
+<li>
+<p>堆是低地址向高地址扩展，空间比较大，较为灵活。</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fengyuyeguirenenen/article/details/122197215">https://blog.csdn.net/fengyuyeguirenenen/article/details/122197215</a></p>
+<h2 id="17-函数传递参数的几种方式"><a class="markdownIt-Anchor" href="#17-函数传递参数的几种方式"></a> 17、函数传递参数的几种方式</h2>
+<ul>
+<li>
+<p>值传递:形参是实参的拷⻉，函数内部对形参的操作并不会影响到外部的实参。</p>
+</li>
+<li>
+<p>指针传递:也是值传递的一种方式，形参是指向实参地址的指针，当对形参的指向操作时，就相当于对实参本身进行操作。</p>
+</li>
+<li>
+<p>引用传递:实际上就是把引用对象的地址放在了开辟的<strong>栈空间</strong>中，函数内部对形参的任何操作可以直接映射到外部的实参上面。</p>
+</li>
+</ul>
+<h2 id="18-new-delete-malloc-free-区别"><a class="markdownIt-Anchor" href="#18-new-delete-malloc-free-区别"></a> 18、new / delete ，malloc / free 区别</h2>
+<p>都可以用来在堆上分配和回收空间。new /delete 是<strong>操作符</strong>，malloc/free 是<strong>库函数</strong>。</p>
+<ul>
+<li>
+<p>执行 <strong>new</strong> 实际上执行两个过程:</p>
+<ol>
+<li>分配未初始化的内存空间(malloc);</li>
+<li>使用对象的<strong>构造函数</strong>对空间进行初始化;返回空间的<strong>首地址</strong>。如果在第一步分配空间中出现问题，则抛出 std::bad_alloc 异常，或被某个设定的异常处理函数捕获处理;如果在第二步构造对象时出现异常，则<u>自动调用 delete 释放内存</u>。</li>
+</ol>
+</li>
+<li>
+<p>执行 <strong>delete</strong> 实际上也有两个过程:</p>
+<ol>
+<li>使用析构函数对对象进行析构;</li>
+<li>回收内存空间 (free)。</li>
+</ol>
+</li>
+</ul>
+<p>以上也可以看出 new 和 malloc 的区别，new 得到的是经过<strong>初始化的空间</strong>【被构造函数】，而 malloc 得到的是未初始化的空间。所以 new 是 new 一个类型，而 malloc 则是malloc 一个字节⻓度的空间。delete 和 free 同理，delete 不仅释放空间还析构对象，delete 一个类型，free 一个字节⻓度的空间。<u>简而言之，一个是空间加对象内容，一个单纯操作空间</u>。</p>
+<p>为什么有了 <strong>malloc</strong>/<strong>free</strong> 还需要 <strong>new</strong>/<strong>delete</strong>?</p>
+<p>因为对于非内部数据类型而言，光用 malloc /free 无法满足动态对象的要求。对象在创建的同时需要自动执行构造函数，对象在消亡以前 要自动执行析构函数。</p>
+<p>由于 malloc/free 是库函数而不是运算符，<u>不在编译器控制权限之内</u>， 不能够把执行的构造函数和析构函数的任务强加于 malloc/free，所以有了 new/delete 操作符。</p>
+<h2 id="19-volatile-和-extern-关键字"><a class="markdownIt-Anchor" href="#19-volatile-和-extern-关键字"></a> 19、volatile 和 extern 关键字</h2>
+<h3 id="volatile-三个特性"><a class="markdownIt-Anchor" href="#volatile-三个特性"></a> volatile 三个特性</h3>
+<ul>
+<li>
+<p>易变性:在汇编层面反映出来，就是两条语句，下一条语句不会直接使用上一条语句对应的 volatile 变量的寄存器内容，而是重新从内存中读取。</p>
+</li>
+<li>
+<p>不可优化性:volatile 告诉编译器，不要对我这个变量进行各种激进的优化，甚至将变量直接 消除，保证程序员写在代码中的指令，一定会被执行。</p>
+</li>
+<li>
+<p>顺序性:能够保证 volatile 变量之间的顺序性，编译器不会进行乱序优化。</p>
+</li>
+</ul>
 
             </div>
             <hr>
@@ -502,9 +596,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/05/21/TinyWebServer/">
+                      <a href="/2022/05/21/%E7%A7%8B%E6%8B%9B%E5%A4%8D%E7%9B%98/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">TinyWebServer</span>
+                        <span class="hidden-mobile">秋招复盘</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -512,8 +606,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/03/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E7%BC%96%E7%A8%8B/">
-                        <span class="hidden-mobile">Linux高性能服务器编程</span>
+                      <a href="/2022/05/21/TinyWebServer/">
+                        <span class="hidden-mobile">TinyWebServer</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
