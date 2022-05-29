@@ -23,10 +23,16 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="美团  暑期offer  笔试  第一题 一组数，将他们按照两位两位分开然后相加，之后反复到小于等于99，如果个数是奇数，就把第一领出来。  input: 123456 output: 102 3  按照分治的方法进行处理，如果是奇数的话，那我就把第一位除去变成偶数再分治再加回来，这样时间复杂度为O(log2n)O(log_2n)O(log2​n)  第二题 线程锁，记住一个线程可以抢占多个锁，">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292243632.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292244732.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292253485.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292255869.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292257413.png">
 <meta property="article:published_time" content="2022-05-21T10:30:38.584Z">
-<meta property="article:modified_time" content="2022-05-28T14:04:37.463Z">
+<meta property="article:modified_time" content="2022-05-29T15:04:27.080Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292243632.png">
   
   <title>秋招复盘 - Hexo</title>
 
@@ -199,7 +205,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      4.6k 字
     </span>
   
 
@@ -208,7 +214,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7 分钟
+      14 分钟
     </span>
   
 
@@ -340,69 +346,226 @@
 </li>
 <li>
 <p>操作系统死锁什么概念？</p>
+<p>各进程互相等待对方的手里的资源，导致各进程都阻塞，无法向前推进</p>
 </li>
 <li>
 <p>怎么规避死锁呢？</p>
+<ol>
+<li>
+<p>破坏互斥条件：</p>
+<p>将临界资源改成共享资源（可行性不高，很多时候无法破坏互斥条件）</p>
+</li>
+<li>
+<p>破坏不可剥夺条件：</p>
+<p>申请的资源得不到满足时，立即释放拥有的所有资源</p>
+<p>申请的资源被其他进程占用时，用操作系统协助剥夺</p>
+<p>实现复杂，可能饥饿</p>
+</li>
+<li>
+<p>破坏请求和保持条件：</p>
+<p>运行前分配好所有的资源，之后一直保持</p>
+<p>资源利用率低</p>
+</li>
+<li>
+<p>破坏循环等待条件：</p>
+<p>给资源编号，按顺序进行使用</p>
+</li>
+</ol>
+<p>避免死锁：</p>
+<ol>
+<li>银行家算法（对于每一次资源分配时，都要进行安全性检查，可以正确分配时才允许分配）</li>
+</ol>
 </li>
 <li>
 <p>你们经常会用Linux嘛？</p>
+<p>不怎么用</p>
 </li>
 <li>
 <p>项目是部署在服务器上的么？</p>
+<p>不是</p>
 </li>
 <li>
 <p>我想看服务器上的哪些端口被占用应该如何做呢？</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++">netstat -anp | grep [port] <span class="hljs-comment">// 查询某个端口是否被占用</span><br>netstat -nultp <span class="hljs-comment">// 此处不用加端口号【查看所有被占用的端口】</span><br><span class="hljs-comment">// 还可以用</span><br>ss  <span class="hljs-comment">// 可以用于转存储套接字统计信息</span><br>netstat <span class="hljs-comment">// 可以显示打开的套接字列表</span><br>lsof  <span class="hljs-comment">// 可以列出打开的文件</span><br>nmap  <span class="hljs-comment">// 网络检测工具和端口扫描程序</span><br></code></pre></td></tr></table></figure>
 </li>
 <li>
 <p>TCP和UDP的区别？</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">UDP</th>
+<th style="text-align:center">TCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">是否连接</td>
+<td style="text-align:center">无连接</td>
+<td style="text-align:center">面向连接</td>
+</tr>
+<tr>
+<td style="text-align:center">是否可靠</td>
+<td style="text-align:center">不可靠传输，不使用流量控制和拥塞控制</td>
+<td style="text-align:center">可靠传输，使用流量控制和拥塞控制</td>
+</tr>
+<tr>
+<td style="text-align:center">连接对象个数</td>
+<td style="text-align:center">支持一对一，一对多，多对一和多对多交互通信</td>
+<td style="text-align:center">只能是一对一通信</td>
+</tr>
+<tr>
+<td style="text-align:center">传输方式</td>
+<td style="text-align:center">面向数据报</td>
+<td style="text-align:center">面向字节流</td>
+</tr>
+<tr>
+<td style="text-align:center">首部开销</td>
+<td style="text-align:center">首部开销小，仅8字节</td>
+<td style="text-align:center">首部最小20字节，最大60字节</td>
+</tr>
+<tr>
+<td style="text-align:center">场景</td>
+<td style="text-align:center">适用于实时应用（IP电话，视频会议，直播）</td>
+<td style="text-align:center">适用于要求可靠传输的应用，例如文件传输</td>
+</tr>
+</tbody>
+</table>
 </li>
 <li>
 <p>DNS是什么？</p>
+<p>域名解析服务器，可以将域名转换成ip地址。</p>
 </li>
 <li>
 <p>DNS用的TCP还是UDP？</p>
+<p>UDP，开销小速度快。</p>
 </li>
 <li>
 <p>http和https的区别？</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">区别</th>
+<th style="text-align:center">HTTP</th>
+<th style="text-align:center">HTTPS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">协议</td>
+<td style="text-align:center">运输在TCP之上，明文传输，客户端与服务端都无法验证对方的身份（无状态）</td>
+<td style="text-align:center">身披SSL（Secure Socket Layer）外壳的HTTP，运行于SSL上，SSL运行于TCP之上，是添加了加密和认证机制的HTTP</td>
+</tr>
+<tr>
+<td style="text-align:center">端口</td>
+<td style="text-align:center">80</td>
+<td style="text-align:center">443</td>
+</tr>
+<tr>
+<td style="text-align:center">资源消耗</td>
+<td style="text-align:center">较少</td>
+<td style="text-align:center">由于加密处理，会消耗更多的CPU和内存资源</td>
+</tr>
+<tr>
+<td style="text-align:center">开销</td>
+<td style="text-align:center">无需证书</td>
+<td style="text-align:center">需要证书，而证书一般需要向认证机构购买</td>
+</tr>
+<tr>
+<td style="text-align:center">加密机制</td>
+<td style="text-align:center">无</td>
+<td style="text-align:center">共享密钥加密和公开密钥加密并用的混合加密机制</td>
+</tr>
+<tr>
+<td style="text-align:center">安全性</td>
+<td style="text-align:center">弱</td>
+<td style="text-align:center">由于加密机制安全性强</td>
+</tr>
+</tbody>
+</table>
 </li>
 <li>
 <p>https用什么算法加密的？</p>
+<p>TLS/SSL加密</p>
 </li>
 <li>
 <p>SSL是绝对安全的么？</p>
+<p>不一定。<strong>SSL负责网站身份验证</strong>和<strong>数据加密传输</strong>。证书也有可能是假的。SSL即使对称加密也是非对称的，在内容传输上是对称加密，在证书认证是非对称加密。</p>
 </li>
 <li>
 <p>了解过如何攻破https这个东西嘛？</p>
+<p><a target="_blank" rel="noopener" href="https://www.h5w3.com/46756.html">https://www.h5w3.com/46756.html</a></p>
 </li>
 <li>
 <p>栈和队列的区别？</p>
+<p>相同点：</p>
+<ol>
+<li>线性结构</li>
+<li>插入操作都是限定在表尾</li>
+<li>都可以用顺序结构和链式结构实现</li>
+<li>插入和删除复杂度都是O（1），在空间复杂度也是一样</li>
+</ol>
+<p>不同点：</p>
+<ol>
+<li>一个是先进先出，一个先进后出</li>
+<li>应用场景不同</li>
+</ol>
 </li>
 <li>
 <p>现在有一个队列的程序，如何实现栈？</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    queue&lt;<span class="hljs-keyword">int</span>&gt; q;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">MyStack</span>() &#123;<br>        <br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;<br>        q.<span class="hljs-built_in">push</span>(x);<br>        <span class="hljs-keyword">int</span> n = q.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">while</span>(n--&gt;<span class="hljs-number">1</span>)&#123; <span class="hljs-comment">// 把新放进来的放到队头 这样顺序就全返过来了</span><br>            <span class="hljs-keyword">int</span> val = q.<span class="hljs-built_in">front</span>();<br>            q.<span class="hljs-built_in">pop</span>();<br>            q.<span class="hljs-built_in">push</span>(val);<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> val = q.<span class="hljs-built_in">front</span>();<br>        q.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">return</span> val;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> q.<span class="hljs-built_in">front</span>();<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> q.<span class="hljs-built_in">empty</span>();<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 </li>
 <li>
-<p>哈希了解过么？知道有哪些解决哈希冲突的方式么？</p>
+<p>哈希了解过么？</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/758f783dbdad">https://www.jianshu.com/p/758f783dbdad</a></p>
+<p>上面网址不错！</p>
+<p>任意长度的输入经过hash算法转化为固定长度的输出。</p>
+</li>
+<li>
+<p>知道有哪些解决哈希冲突的方式么？</p>
+<p><strong>开放地址法</strong></p>
+<p>线性探测：如果某数据的值已经存在，则在原来值的基础上往后加一个单位，直至不发生哈希冲突。</p>
+<p>再平方探测：按顺序决定值时，如果某数据的值已经存在，则在原来值的基础上先加1的平方个单位，若仍然存在则减1的平方个单位。随之是2的平方，3的平方等等。直至不发生哈希冲突。</p>
+<p><strong>链式地址法</strong></p>
+<p><strong>再哈希法</strong></p>
+<p>对于冲突的哈希值再次进行哈希处理，直至没有哈希冲突。</p>
 </li>
 <li>
 <p>一致性哈希了解过么？</p>
+<p>尽可能降低分布式环境下，通过<strong>哈希定位运算</strong>确认元素位置的集群服务受到机器数的影响，避免使用固定值取模，改变范围定位的方式。</p>
+<p>普通的负载均衡是除以机器数。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292243632.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-29 下午10.43.51" /></p>
+<p>一致性Hash的除数是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>32</mn></msup></mrow><annotation encoding="application/x-tex">2^{32}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>（int类型的最大值）。从0到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>32</mn></msup></mrow><annotation encoding="application/x-tex">2^{32}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span> - 1,首尾相连构成了一个环。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292244732.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-29 下午10.44.01" /></p>
+<p>我们先对服务器节点的IP进行Hash，然后除以<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>32</mn></msup></mrow><annotation encoding="application/x-tex">2^{32}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>得到服务器节点在这个Hash环中的位置。</p>
+<p>如果有请求进来了，同样进行Hash然后除以<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>32</mn></msup></mrow><annotation encoding="application/x-tex">2^{32}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>取余数。如果落在Hash换上，然后顺时针找到第一个节点，这个节点就负责该请求。</p>
+<p><strong>优点</strong>：解决因为横向伸缩导致的大规模数据变动。</p>
+<p><strong>缺点</strong>：一致性Hash算法在节点数量较少的时候，会出现分布不均匀的问题。解决方案就是在Hash环上增加虚拟节点。</p>
 </li>
 <li>
 <p>跳表了解过么？</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Appleeatingboy/article/details/119948340?spm=1001.2101.3001.6650.1&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-119948340-blog-105159817.pc_relevant_antiscanv2&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-119948340-blog-105159817.pc_relevant_antiscanv2&amp;utm_relevant_index=2">https://blog.csdn.net/Appleeatingboy/article/details/119948340?spm=1001.2101.3001.6650.1&amp;utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-119948340-blog-105159817.pc_relevant_antiscanv2&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-119948340-blog-105159817.pc_relevant_antiscanv2&amp;utm_relevant_index=2</a></p>
 </li>
 <li>
 <p>假如给你一个算法如何了解这个算法的好坏呢？</p>
+<p>时间复杂度和空间复杂度</p>
 </li>
 <li>
 <p>堆排序的时间复杂度？</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292253485.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-29 下午10.53.41" /></p>
 </li>
 <li>
 <p>了解过互联网中常见的中间件么？</p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292255869.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-29 下午10.55.14" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/18612849621/picture_bed@main//picture/202205292257413.png" srcset="/img/loading.gif" lazyload alt="截屏2022-05-29 下午10.57.31" /></p>
 </li>
 <li>
 <p>你对java这个语言有了解过么？</p>
+<p>（我面c++，不想弄java）</p>
 </li>
 <li>
 <p>你之前的项目中都是纯项目计算没有数据存储相关的么？</p>
+<p>无</p>
 </li>
 <li>
 <p>你现在比较关注哪个方面的技术呢？</p>
@@ -410,9 +573,12 @@
 </li>
 <li>
 <p>你了解哪些常见的分布式的框架以及组件呢？</p>
+<p>消息队列：Kafka，RabbitMQ</p>
+<p>noSQL：Redis</p>
 </li>
 <li>
 <p>为什么要从事开发工程师这个职位呢？</p>
+<p>别踩一捧一就对了</p>
 </li>
 </ul>
 <p>最后就是反问和介绍平台了。:)整体的感觉还不错，就是自己太垃圾啦！</p>
@@ -435,6 +601,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/05/29/%E4%B8%89%E7%BB%B4%E9%87%8D%E5%BB%BA/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">三维重建</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
