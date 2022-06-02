@@ -284,24 +284,26 @@ output:
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/05/21/%E5%85%AB%E8%82%A1%E6%96%87/" target="_self">
-          c++及八股文基础知识
+        <a href="/2022/05/21/WebServer/" target="_self">
+          WebServer
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/05/21/%E5%85%AB%E8%82%A1%E6%96%87/" target="_self">
+        <a href="/2022/05/21/WebServer/" target="_self">
           
           
             
           
-           c++
- 1、智能指针
-https://blog.csdn.net/sjp11/article/details/123899141
- 基本概念
- RALL
-RAII（Resource Acquisition Is Initialization）是一种利用对象生命周期来控制程序资源（如内存、文件句柄、网络连接、互斥量等等）的简单技术。
-在对象构造时获取资源，接着控制对资源的访问使之在对象的生命周期
+           LOCK
+ 一、封装互斥锁
+锁的用法一般是这样的：
+
+在访问共享资源之前，先获取锁。
+如果获取锁成功，就可以访问共享资源了。
+最后，需要释放锁，以便其他线程继续访问共享资源。
+
+1234567891011121314151617181920212223242526class locker &#123;    public:        locker() &#123;            if
         </a>
       </p>
 
@@ -326,32 +328,24 @@ RAII（Resource Acquisition Is Initialization）是一种利用对象生命周�
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/05/21/TinyWebServer/" target="_self">
-          TinyWebServer
+        <a href="/2022/05/21/%E5%85%AB%E8%82%A1%E6%96%87/" target="_self">
+          c++及八股文基础知识
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/05/21/TinyWebServer/" target="_self">
+        <a href="/2022/05/21/%E5%85%AB%E8%82%A1%E6%96%87/" target="_self">
           
           
             
           
-           阻塞/非阻塞、同步/异步(网络IO)
-
-典型的一次IO的两个阶段是什么?数据就绪 和 数据读写
-
-数据就绪:根据系统IO操作的就绪状态
-
-阻塞
-非阻塞
-
-数据读写:根据应用程序和内核的交互方式
-
-同步
-异步
-
-
+           c++
+ 1、智能指针
+https://blog.csdn.net/sjp11/article/details/123899141
+ 基本概念
+ RALL
+RAII（Resource Acquisition Is Initialization）是一种利用对象生命周期来控制程序资源（如内存、文件句柄、网络连接、互斥量等等）的简单技术。
+在对象构造时获取资源，接着控制对资源的访问使之在对象的生命周期
         </a>
       </p>
 
